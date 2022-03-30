@@ -361,7 +361,7 @@ namespace Mediatek86.modele
         }
 
         /// <summary>
-        /// Supprimer une Commande
+        /// Supprimer une CommandeD
         /// </summary>
         /// <param name="id">Identifiant de CommandeDocument à supprimer</param>
         /// <returns>True si la suppression a pu se faire</returns>

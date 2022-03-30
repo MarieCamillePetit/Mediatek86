@@ -1429,16 +1429,17 @@ namespace Mediatek86.vue
         /// <param name="lesCommandeDocument">Collection de CommandeDocument</param>
         private void RemplirCommandeLivresListe(List<CommandeDocument> lesCommandeDocument)
         {
-            dgvCommandeLivresListe.DataSource = lesCommandeDocument;
+            bdgCommandesLivresListe.DataSource = lesCommandeDocument;
             dgvCommandeLivresListe.DataSource = bdgCommandesLivresListe;
             dgvCommandeLivresListe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dgvCommandeLivresListe.Columns["id"].Visible = false;
-            dgvCommandeLivresListe.Columns["idSuivi"].Visible = false;
-            dgvCommandeLivresListe.Columns["idLivreDvd"].Visible = false;
-            dgvCommandeLivresListe.Columns["dateCommande"].DisplayIndex = 0;
+
+            dgvCommandeLivresListe.Columns["Id"].Visible = false;
+            dgvCommandeLivresListe.Columns["IdSuivi"].Visible = false;
+            dgvCommandeLivresListe.Columns["IdLivreDvd"].Visible = false;
+            dgvCommandeLivresListe.Columns["DateCommande"].DisplayIndex = 0;
             dgvCommandeLivresListe.Columns[5].HeaderCell.Value = "Date";
             dgvCommandeLivresListe.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvCommandeLivresListe.Columns["montant"].DisplayIndex = 1;
+            dgvCommandeLivresListe.Columns["Montant"].DisplayIndex = 1;
             dgvCommandeLivresListe.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvCommandeLivresListe.Columns[6].DefaultCellStyle.Format = "c2";
             dgvCommandeLivresListe.Columns[6].DefaultCellStyle.FormatProvider = CultureInfo.GetCultureInfo("fr-FR");
