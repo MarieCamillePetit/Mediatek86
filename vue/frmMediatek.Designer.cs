@@ -1914,6 +1914,7 @@ namespace Mediatek86.vue
             this.tabCommandeLivre.TabIndex = 5;
             this.tabCommandeLivre.Text = "Commande d\'un livre";
             this.tabCommandeLivre.UseVisualStyleBackColor = true;
+            this.tabCommandeLivre.Enter += new System.EventHandler(this.tabCommandeLivres_Enter);
             // 
             // grpGestionCommandeLivres
             // 
@@ -2259,6 +2260,7 @@ namespace Mediatek86.vue
             this.txbCommandeLivreNumero.Name = "txbCommandeLivreNumero";
             this.txbCommandeLivreNumero.Size = new System.Drawing.Size(100, 20);
             this.txbCommandeLivreNumero.TabIndex = 43;
+            this.txbCommandeLivreNumero.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txbCommandeLivreNumero_KeyDown);
             // 
             // label59
             // 
@@ -2349,6 +2351,7 @@ namespace Mediatek86.vue
             this.btnCommandeLivreRechercher.TabIndex = 16;
             this.btnCommandeLivreRechercher.Text = "Rechercher";
             this.btnCommandeLivreRechercher.UseVisualStyleBackColor = true;
+            this.btnCommandeLivreRechercher.Click += new System.EventHandler(this.btnCommandeLivreRechercher_Click);
             // 
             // tabCommandeDVD
             // 

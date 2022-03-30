@@ -1278,5 +1278,117 @@ namespace Mediatek86.vue
 
         #endregion
 
+        #region Commande de livre
+
+        //-----------------------------------------------------------
+        // ONGLET "COMMANDES DE LIVRES"
+        //-----------------------------------------------------------
+
+        /// <summary>
+        /// Ouverture de l'onglet Commande de livres : 
+        /// Récupération des livres pour pouvoir afficher les différentes informatios sur le livre 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tabCommandeLivres_Enter(object sender, EventArgs e)
+        {
+            lesLivres = controle.GetAllLivres();
+            ///AccesGestionCommandeLivres(false);
+            ///txbCommandeLivresNumero.Text = "";
+            ///VideCommandeLivresInfos();
+        }
+
+        /// <summary>
+        /// Lors du clic sur le bouton "Rechercher" on obtient les informations du livre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCommandeLivreRechercher_Click(object sender, EventArgs e)
+        {
+            CommandeLivresRechercher();
+        }
+
+        /// <summary>
+        /// Quand l'on appuie sur le bouton "Entrer" on obtient les informations du livre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txbCommandeLivreNumero_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                btnCommandeLivreRechercher_Click(sender, e);
+            }
+        }
+
+
+        /// <summary>
+        /// Recherche d'un livre à partir du numéro et affichage les informations
+        /// </summary>
+        private void CommandeLivresRechercher()
+        {
+            if (!txbCommandeLivreNumero.Text.Equals(""))
+            {
+                Livre livre = lesLivres.Find(x => x.Id.Equals(txbCommandeLivreNumero.Text.Trim()));
+                if (livre != null)
+                {
+                    AfficheCommandeLivresInfos(livre);
+                }
+                else
+                {
+                    MessageBox.Show("Numéro introuvable");
+                    txbCommandeLivreNumero.Text = "";
+                    txbCommandeLivreNumero.Focus();
+                    VideCommandeLivresInfos();
+                }
+            }
+            else
+            {
+                VideCommandeLivresInfos();
+            }
+        }
+
+        /// <summary>
+        /// Affichage les informations du livre
+        /// </summary>
+        /// <param name="livre">Le livre sélectionné</param>
+        private void AfficheCommandeLivresInfos(Livre livre)
+        {
+            txbCommandeLivresTitre.Text = livre.Titre;
+            txbCommandeLivresAuteur.Text = livre.Auteur;
+            txbCommandeLivresCollection.Text = livre.Collection;
+            txbCommandeLivresGenre.Text = livre.Genre;
+            txbCommandeLivresPublic.Text = livre.Public;
+            txbCommandeLivresRayon.Text = livre.Rayon;
+            txbCommandeLivresImage.Text = livre.Image;
+            txbCommandeLivresISBN.Text = livre.Isbn;
+            string image = livre.Image;
+            try
+            {
+                pcbCommandeLivresImage.Image = Image.FromFile(image);
+            }
+            catch
+            {
+                pcbCommandeLivresImage.Image = null;
+            }
+        }
+
+        /// <summary>
+        /// Vide les zones d'affchage des informations du livre
+        /// </summary>
+        private void VideCommandeLivresInfos()
+        {
+            txbCommandeLivresTitre.Text = "";
+            txbCommandeLivresAuteur.Text = "";
+            txbCommandeLivresCollection.Text = "";
+            txbCommandeLivresGenre.Text = "";
+            txbCommandeLivresPublic.Text = "";
+            txbCommandeLivresRayon.Text = "";
+            txbCommandeLivresImage.Text = "";
+            txbCommandeLivresISBN.Text = "";
+            pcbCommandeLivresImage.Image = null;
+        }
+        #endregion
     }
 }
