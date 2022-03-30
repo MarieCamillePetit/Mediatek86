@@ -5,6 +5,7 @@ using Mediatek86.metier;
 using Mediatek86.controleur;
 using System.Drawing;
 using System.Linq;
+using System.Globalization;
 
 namespace Mediatek86.vue
 {
@@ -27,6 +28,10 @@ namespace Mediatek86.vue
         private List<Dvd> lesDvd = new List<Dvd>();
         private List<Revue> lesRevues = new List<Revue>();
         private List<Exemplaire> lesExemplaires = new List<Exemplaire>();
+
+        private List<CommandeDocument> lesCommandeDocument = new List<CommandeDocument>();
+        private readonly BindingSource bdgCommandesLivresListe = new BindingSource();
+        private List<Suivi> lesSuivis = new List<Suivi>();
 
         #endregion
 
@@ -1293,9 +1298,10 @@ namespace Mediatek86.vue
         private void tabCommandeLivres_Enter(object sender, EventArgs e)
         {
             lesLivres = controle.GetAllLivres();
-            ///AccesGestionCommandeLivres(false);
-            ///txbCommandeLivresNumero.Text = "";
-            ///VideCommandeLivresInfos();
+            lesSuivis = controle.GetAllSuivis();
+            AccesGestionCommandeLivres(false);
+            txbCommandeLivreNumero.Text = "";
+            VideCommandeLivresInfos();
         }
 
         /// <summary>
@@ -1372,6 +1378,8 @@ namespace Mediatek86.vue
             {
                 pcbCommandeLivresImage.Image = null;
             }
+            AfficheCommandeDocumentLivre();
+            AccesGestionCommandeLivres(true);
         }
 
         /// <summary>
@@ -1389,6 +1397,57 @@ namespace Mediatek86.vue
             txbCommandeLivresISBN.Text = "";
             pcbCommandeLivresImage.Image = null;
         }
+
+        private void txbCommandeLivreNumero_TextChanged(object sender, EventArgs e)
+        {
+            AccesGestionCommandeLivres(false);
+            VideCommandeLivresInfos();
+        }
+
+        /// <summary>
+        /// Active/Désactive la zone de gestion des commandes
+        /// </summary>
+        /// <param name="acces">true autorise l'accès</param>
+        private void AccesGestionCommandeLivres(bool acces)
+        {
+            grpGestionCommandeLivres.Enabled = acces;
+        }
+
+        /// <summary>
+        /// Affichage des commandes d'un livre
+        /// </summary>
+        private void AfficheCommandeDocumentLivre()
+        {
+            string idDocument = txbCommandeLivreNumero.Text.Trim();
+            lesCommandeDocument = controle.GetCommandeDocument(idDocument);
+            RemplirCommandeLivresListe(lesCommandeDocument);
+        }
+
+        /// <summary>
+        /// Remplissage du dategrid avec la collection CommandeDocument
+        /// </summary>
+        /// <param name="lesCommandeDocument">Collection de CommandeDocument</param>
+        private void RemplirCommandeLivresListe(List<CommandeDocument> lesCommandeDocument)
+        {
+            dgvCommandeLivresListe.DataSource = lesCommandeDocument;
+            dgvCommandeLivresListe.DataSource = bdgCommandesLivresListe;
+            dgvCommandeLivresListe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvCommandeLivresListe.Columns["id"].Visible = false;
+            dgvCommandeLivresListe.Columns["idSuivi"].Visible = false;
+            dgvCommandeLivresListe.Columns["idLivreDvd"].Visible = false;
+            dgvCommandeLivresListe.Columns["dateCommande"].DisplayIndex = 0;
+            dgvCommandeLivresListe.Columns[5].HeaderCell.Value = "Date";
+            dgvCommandeLivresListe.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvCommandeLivresListe.Columns["montant"].DisplayIndex = 1;
+            dgvCommandeLivresListe.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvCommandeLivresListe.Columns[6].DefaultCellStyle.Format = "c2";
+            dgvCommandeLivresListe.Columns[6].DefaultCellStyle.FormatProvider = CultureInfo.GetCultureInfo("fr-FR");
+            dgvCommandeLivresListe.Columns[0].HeaderCell.Value = "Exemplaires";
+            dgvCommandeLivresListe.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvCommandeLivresListe.Columns[2].HeaderCell.Value = "Etat";
+            dgvCommandeLivresListe.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        }
+
         #endregion
     }
 }

@@ -2260,6 +2260,7 @@ namespace Mediatek86.vue
             this.txbCommandeLivreNumero.Name = "txbCommandeLivreNumero";
             this.txbCommandeLivreNumero.Size = new System.Drawing.Size(100, 20);
             this.txbCommandeLivreNumero.TabIndex = 43;
+            this.txbCommandeLivreNumero.TextChanged += new System.EventHandler(this.txbCommandeLivreNumero_TextChanged);
             this.txbCommandeLivreNumero.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txbCommandeLivreNumero_KeyDown);
             // 
             // label59

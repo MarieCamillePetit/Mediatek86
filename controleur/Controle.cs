@@ -14,6 +14,7 @@ namespace Mediatek86.controleur
         private readonly List<Categorie> lesRayons;
         private readonly List<Categorie> lesPublics;
         private readonly List<Categorie> lesGenres;
+        private readonly List<Suivi> lesSuivis;
 
         /// <summary>
         /// Ouverture de la fenêtre
@@ -26,6 +27,7 @@ namespace Mediatek86.controleur
             lesGenres = Dao.GetAllGenres();
             lesRayons = Dao.GetAllRayons();
             lesPublics = Dao.GetAllPublics();
+            lesSuivis = Dao.GetAllSuivis();
             FrmMediatek frmMediatek = new FrmMediatek(this);
             frmMediatek.ShowDialog();
         }
@@ -83,6 +85,13 @@ namespace Mediatek86.controleur
         {
             return lesPublics;
         }
+        /// <summary>
+        /// récupère les suivis
+        /// </summary>
+        public List<Suivi> GetAllSuivis()
+        {
+            return lesSuivis;
+        }
 
         /// <summary>
         /// récupère les exemplaires d'une revue
@@ -101,6 +110,34 @@ namespace Mediatek86.controleur
         public bool CreerExemplaire(Exemplaire exemplaire)
         {
             return Dao.CreerExemplaire(exemplaire);
+        }
+
+        /// <summary>
+        /// récupère les commandes d'un Livre
+        /// </summary>
+        /// <param name="idDocument">Identifiant du document concerné</param>
+        /// <returns>Collection d'objets de type CommandeDocument</returns>
+        public List<CommandeDocument> GetCommandeDocument(string idDocument)
+        {
+            return Dao.GetCommandeDocument(idDocument);
+        }
+
+        /// <summary>
+        /// Créer une CommandeDocument
+        /// </summary>
+        /// <param name="commandeDocument">L'objet document concerné</param>
+        public bool CreerCommandeDocument(CommandeDocument commandeDocument)
+        {
+            return Dao.CreerCommandeDocument(commandeDocument);
+        }
+
+        /// <summary>
+        /// Supprimer une CommandeDocument
+        /// </summary>
+        /// <param name="id">Identifiant de document à supprimer</param>
+        public bool SupprCommandeDocument(string id)
+        {
+            return Dao.SupprCommandeDocument(id);
         }
 
     }
