@@ -2445,6 +2445,7 @@ namespace Mediatek86.vue
             this.dgvCommandeDVDListe.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCommandeDVDListe.Size = new System.Drawing.Size(391, 122);
             this.dgvCommandeDVDListe.TabIndex = 55;
+            this.dgvCommandeDVDListe.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCommandeDVDListe_ColumnHeaderMouseClick);
             // 
             // label84
             // 
