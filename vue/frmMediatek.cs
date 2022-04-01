@@ -61,6 +61,15 @@ namespace Mediatek86.vue
             }
         }
 
+        /// <summary>
+        /// Demande la confirmation de la suppression
+        /// </summary>
+        /// <returns></returns>
+        private bool ConfirmationSupprCommande()
+        {
+            return (MessageBox.Show("Voulez-vous vraiment supprimer cette commande ?", "Suppression", MessageBoxButtons.YesNo) == DialogResult.Yes);
+        }
+
         #endregion
 
 
@@ -1579,6 +1588,30 @@ namespace Mediatek86.vue
                 txbCommandeLivresNumeroCommande.Focus();
             }
         }
+
+        /// <summary>
+        /// Suppression d'une commande
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCommandeLivresSupprimer_Click(object sender, EventArgs e)
+        {
+            if (ConfirmationSupprCommande())
+            {
+                CommandeDocument commandeDocument = (CommandeDocument)bdgCommandesLivresListe.Current;
+                if (controle.SupprCommandeDocument(commandeDocument.Id))
+                {
+                    AfficheCommandeDocumentLivre();
+                }
+                else
+                {
+                    MessageBox.Show("Une erreur s'est produite.", "Erreur");
+                }
+            }
+        }
+
         #endregion
+
+
     }
 }
