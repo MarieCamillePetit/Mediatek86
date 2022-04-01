@@ -1959,6 +1959,17 @@ namespace Mediatek86.vue
         }
 
         /// <summary>
+        /// Evénement sur la saisie du numéro du livre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txbCommandeDvdNumero_TextChanged(object sender, EventArgs e)
+        {
+            AccesGestionCommandeLivres(false);
+            VideCommandeDvdInfos();
+        }
+
+        /// <summary>
         /// Vide les zones d'affichage des informations du DVD
         /// </summary>
         private void VideCommandeDvdInfos()
@@ -2010,7 +2021,7 @@ namespace Mediatek86.vue
             txbCommandeDVDMontant.Enabled = acces;
             btnCommandeDVDEnregistrer.Enabled = acces;
             btnCommandeDVDAnnuler.Enabled = acces;
-            btnCommandeDVDEnregistrer.Enabled = !acces;
+            btnCommandeDVDAjouter.Enabled = !acces;
         }
 
         /// <summary>
@@ -2079,6 +2090,101 @@ namespace Mediatek86.vue
             RemplirCommandeDvdListe(sortedList);
         }
 
+        /// <summary>
+        /// Réaffichage des infos d'un DVD lors d'un changement de commande
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvCommandeDVDListe_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvCommandeDVDListe.CurrentCell != null)
+            {
+                AfficheCommandeDvdDetailSelect();
+            }
+        }
+
+
+        /// <summary>
+        /// Clic sur le bouton ajout d'une commande
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCommandeDVDAjouter_Click(object sender, EventArgs e)
+        {
+            AccesDetailsCommandeDvd(true);
+            AccesModificationCommandeDvd(true);
+        }
+
+        /// <summary>
+        /// Evénement clic sur le bouton valider une commande
+        /// Enregistrement d'une commande à condition que tous les champs soient remplis et valides
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCommandeDVDEnregistrer_Click(object sender, EventArgs e)
+        {
+            if (txbCommandeDVDNumeroCommande.Text == "" || txbCommandeDVDMontant.Text == "")
+            {
+                MessageBox.Show("Veuillez remplir tous les champs.", "Information");
+                return;
+            }
+            String id = txbCommandeDVDNumeroCommande.Text;
+            DateTime dateCommande = datepickCommandeDVDDateCommande.Value;
+            int nbExemplaires = (int)numCommandeDVDExemplaires.Value;
+            string idLivreDvd = txbCommandeDVDNumero.Text.Trim();
+            int idSuivi = lesSuivis[0].Id;
+            string libelleSuivi = lesSuivis[0].Libelle;
+            String montantSaisie = txbCommandeDVDMontant.Text.Replace('.', ',');
+            if (!Double.TryParse(montantSaisie, out double montant))
+            {
+                MessageBox.Show("Le montant doit être numérique.", "Erreur");
+                txbCommandeDVDMontant.Text = "";
+                txbCommandeDVDMontant.Focus();
+                return;
+            }
+            CommandeDocument laCommandeDocument = new CommandeDocument(id, dateCommande, montant, nbExemplaires, idLivreDvd, idSuivi, libelleSuivi);
+            if (controle.CreerCommandeDocument(laCommandeDocument))
+            {
+                AfficheCommandeDocumentDvd();
+                int addedRowIndex = -1;
+                DataGridViewRow row = dgvCommandeDVDListe.Rows
+                    .Cast<DataGridViewRow>()
+                    .First(r => r.Cells["id"].Value.ToString().Equals(id));
+                addedRowIndex = row.Index;
+                dgvCommandeDVDListe.Rows[addedRowIndex].Selected = true;
+            }
+            else
+            {
+                MessageBox.Show("Ce numéro de commande existe déjà.", "Erreur");
+                txbCommandeDVDNumeroCommande.Text = "";
+                txbCommandeDVDNumeroCommande.Focus();
+            }
+            AccesDetailsCommandeDvd(false);
+            AccesGestionCommandeDvd(true);
+        }
+
+        /// <summary>
+        /// Evénement sur le bouton annuler la saisie d'une nouvelle commande
+        /// à condition que l'utilisateur le confirme
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCommandeDVDAnnuler_Click(object sender, EventArgs e)
+        {
+            if (!(txbCommandeDVDNumeroCommande.Text == "" && txbCommandeDVDMontant.Text == ""))
+            {
+                if (ConfirmationAnnulationCommande())
+                {
+                    AccesDetailsCommandeDvd(false);
+                    AccesGestionCommandeDvd(true);
+                }
+            }
+            else
+            {
+                AccesDetailsCommandeDvd(false);
+                AccesGestionCommandeDvd(true);
+            }
+        }
 
         #endregion
     }

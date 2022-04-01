@@ -2446,6 +2446,7 @@ namespace Mediatek86.vue
             this.dgvCommandeDVDListe.Size = new System.Drawing.Size(391, 122);
             this.dgvCommandeDVDListe.TabIndex = 55;
             this.dgvCommandeDVDListe.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCommandeDVDListe_ColumnHeaderMouseClick);
+            this.dgvCommandeDVDListe.SelectionChanged += new System.EventHandler(this.dgvCommandeDVDListe_SelectionChanged);
             // 
             // label84
             // 
@@ -2530,6 +2531,7 @@ namespace Mediatek86.vue
             this.txbCommandeDVDNumero.Name = "txbCommandeDVDNumero";
             this.txbCommandeDVDNumero.Size = new System.Drawing.Size(100, 20);
             this.txbCommandeDVDNumero.TabIndex = 24;
+            this.txbCommandeDVDNumero.TextChanged += new System.EventHandler(this.txbCommandeDvdNumero_TextChanged);
             // 
             // label75
             // 
@@ -2701,6 +2703,7 @@ namespace Mediatek86.vue
             this.btnCommandeDVDAjouter.TabIndex = 0;
             this.btnCommandeDVDAjouter.Text = "Ajouter";
             this.btnCommandeDVDAjouter.UseVisualStyleBackColor = true;
+            this.btnCommandeDVDAjouter.Click += new System.EventHandler(this.btnCommandeDVDAjouter_Click);
             // 
             // grpCommandeDVD
             // 
@@ -2725,6 +2728,7 @@ namespace Mediatek86.vue
             // 
             // btnCommandeDVDAnnuler
             // 
+            this.btnCommandeDVDAnnuler.Enabled = false;
             this.btnCommandeDVDAnnuler.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCommandeDVDAnnuler.ForeColor = System.Drawing.Color.DarkRed;
             this.btnCommandeDVDAnnuler.Location = new System.Drawing.Point(140, 113);
@@ -2733,6 +2737,7 @@ namespace Mediatek86.vue
             this.btnCommandeDVDAnnuler.TabIndex = 62;
             this.btnCommandeDVDAnnuler.Text = "Annuler";
             this.btnCommandeDVDAnnuler.UseVisualStyleBackColor = true;
+            this.btnCommandeDVDAnnuler.Click += new System.EventHandler(this.btnCommandeDVDAnnuler_Click);
             // 
             // txbCommandeDVDMontant
             // 
@@ -2771,6 +2776,7 @@ namespace Mediatek86.vue
             // 
             // txbCommandeDVDNumeroCommande
             // 
+            this.txbCommandeDVDNumeroCommande.Enabled = false;
             this.txbCommandeDVDNumeroCommande.Location = new System.Drawing.Point(256, 28);
             this.txbCommandeDVDNumeroCommande.Name = "txbCommandeDVDNumeroCommande";
             this.txbCommandeDVDNumeroCommande.Size = new System.Drawing.Size(100, 20);
@@ -2818,6 +2824,7 @@ namespace Mediatek86.vue
             // 
             // btnCommandeDVDEnregistrer
             // 
+            this.btnCommandeDVDEnregistrer.Enabled = false;
             this.btnCommandeDVDEnregistrer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCommandeDVDEnregistrer.ForeColor = System.Drawing.Color.ForestGreen;
             this.btnCommandeDVDEnregistrer.Location = new System.Drawing.Point(140, 85);
@@ -2826,6 +2833,7 @@ namespace Mediatek86.vue
             this.btnCommandeDVDEnregistrer.TabIndex = 18;
             this.btnCommandeDVDEnregistrer.Text = "Enregistrer";
             this.btnCommandeDVDEnregistrer.UseVisualStyleBackColor = true;
+            this.btnCommandeDVDEnregistrer.Click += new System.EventHandler(this.btnCommandeDVDEnregistrer_Click);
             // 
             // tabAboRevue
             // 
