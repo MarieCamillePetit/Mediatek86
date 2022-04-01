@@ -1934,6 +1934,7 @@ namespace Mediatek86.vue
             // 
             // btnCommandeLivresSupprimer
             // 
+            this.btnCommandeLivresSupprimer.Enabled = false;
             this.btnCommandeLivresSupprimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.btnCommandeLivresSupprimer.ForeColor = System.Drawing.Color.DarkRed;
             this.btnCommandeLivresSupprimer.Location = new System.Drawing.Point(671, 47);
@@ -1947,6 +1948,7 @@ namespace Mediatek86.vue
             // 
             // btnCommandeLivresRegler
             // 
+            this.btnCommandeLivresRegler.Enabled = false;
             this.btnCommandeLivresRegler.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.btnCommandeLivresRegler.Location = new System.Drawing.Point(509, 47);
             this.btnCommandeLivresRegler.Margin = new System.Windows.Forms.Padding(2);
@@ -1955,20 +1957,24 @@ namespace Mediatek86.vue
             this.btnCommandeLivresRegler.TabIndex = 3;
             this.btnCommandeLivresRegler.Text = "Régler";
             this.btnCommandeLivresRegler.UseVisualStyleBackColor = true;
+            this.btnCommandeLivresRegler.Click += new System.EventHandler(this.btnCommandeLivresRegler_Click);
             // 
             // btnCommandeLivresConfirmer
             // 
+            this.btnCommandeLivresConfirmer.Enabled = false;
             this.btnCommandeLivresConfirmer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.btnCommandeLivresConfirmer.Location = new System.Drawing.Point(345, 47);
             this.btnCommandeLivresConfirmer.Margin = new System.Windows.Forms.Padding(2);
             this.btnCommandeLivresConfirmer.Name = "btnCommandeLivresConfirmer";
             this.btnCommandeLivresConfirmer.Size = new System.Drawing.Size(117, 26);
             this.btnCommandeLivresConfirmer.TabIndex = 2;
-            this.btnCommandeLivresConfirmer.Text = "Confirmation";
+            this.btnCommandeLivresConfirmer.Text = "Confirmer";
             this.btnCommandeLivresConfirmer.UseVisualStyleBackColor = true;
+            this.btnCommandeLivresConfirmer.Click += new System.EventHandler(this.btnCommandeLivresConfirmerLivraison_Click);
             // 
             // btnCommandeLivresRelancer
             // 
+            this.btnCommandeLivresRelancer.Enabled = false;
             this.btnCommandeLivresRelancer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
             this.btnCommandeLivresRelancer.Location = new System.Drawing.Point(188, 47);
             this.btnCommandeLivresRelancer.Margin = new System.Windows.Forms.Padding(2);
@@ -1977,6 +1983,7 @@ namespace Mediatek86.vue
             this.btnCommandeLivresRelancer.TabIndex = 1;
             this.btnCommandeLivresRelancer.Text = "Relancer";
             this.btnCommandeLivresRelancer.UseVisualStyleBackColor = true;
+            this.btnCommandeLivresRelancer.Click += new System.EventHandler(this.btnCommandeLivresRelancer_Click);
             // 
             // btnCommandeLivresAjouter
             // 
@@ -2022,6 +2029,7 @@ namespace Mediatek86.vue
             this.btnCommandeLivresAnnuler.TabIndex = 62;
             this.btnCommandeLivresAnnuler.Text = "Annuler";
             this.btnCommandeLivresAnnuler.UseVisualStyleBackColor = true;
+            this.btnCommandeLivresAnnuler.Click += new System.EventHandler(this.btnCommandeLivresAnnuler_Click);
             // 
             // txbCommandeLivresMontant
             // 
@@ -2205,6 +2213,7 @@ namespace Mediatek86.vue
             this.dgvCommandeLivresListe.Size = new System.Drawing.Size(391, 134);
             this.dgvCommandeLivresListe.TabIndex = 52;
             this.dgvCommandeLivresListe.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvLivresListeCommande_ColumnHeaderMouseClick);
+            this.dgvCommandeLivresListe.SelectionChanged += new System.EventHandler(this.dgvCommandeLivresListe_SelectionChanged);
             // 
             // txbCommandeLivresImage
             // 
