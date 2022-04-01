@@ -2671,6 +2671,7 @@ namespace Mediatek86.vue
             this.btnCommandeDVDRegler.TabIndex = 3;
             this.btnCommandeDVDRegler.Text = "Régler";
             this.btnCommandeDVDRegler.UseVisualStyleBackColor = true;
+            this.btnCommandeDVDRegler.Click += new System.EventHandler(this.btnCommandeDVDRegler_Click);
             // 
             // btnCommandeDVDConfirmation
             // 
@@ -2680,8 +2681,9 @@ namespace Mediatek86.vue
             this.btnCommandeDVDConfirmation.Name = "btnCommandeDVDConfirmation";
             this.btnCommandeDVDConfirmation.Size = new System.Drawing.Size(117, 26);
             this.btnCommandeDVDConfirmation.TabIndex = 2;
-            this.btnCommandeDVDConfirmation.Text = "Confirmation";
+            this.btnCommandeDVDConfirmation.Text = "Confirmer";
             this.btnCommandeDVDConfirmation.UseVisualStyleBackColor = true;
+            this.btnCommandeDVDConfirmation.Click += new System.EventHandler(this.btnCommandeDVDConfirmation_Click);
             // 
             // btnCommandeDVDRelancer
             // 
@@ -2693,6 +2695,7 @@ namespace Mediatek86.vue
             this.btnCommandeDVDRelancer.TabIndex = 1;
             this.btnCommandeDVDRelancer.Text = "Relancer";
             this.btnCommandeDVDRelancer.UseVisualStyleBackColor = true;
+            this.btnCommandeDVDRelancer.Click += new System.EventHandler(this.btnCommandeDVDRelancer_Click);
             // 
             // btnCommandeDVDAjouter
             // 

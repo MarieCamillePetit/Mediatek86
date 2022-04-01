@@ -2116,8 +2116,7 @@ namespace Mediatek86.vue
         }
 
         /// <summary>
-        /// Evénement clic sur le bouton valider une commande
-        /// Enregistrement d'une commande à condition que tous les champs soient remplis et valides
+        /// Validation nouvelle commande
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2164,8 +2163,7 @@ namespace Mediatek86.vue
         }
 
         /// <summary>
-        /// Evénement sur le bouton annuler la saisie d'une nouvelle commande
-        /// à condition que l'utilisateur le confirme
+        /// Annulation d'une saisie de commande
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -2204,6 +2202,66 @@ namespace Mediatek86.vue
                     MessageBox.Show("Une erreur s'est produite.", "Erreur");
                 }
             }
+        }
+
+        /// <summary>
+        /// Modification de l'état de la commande (Relancée)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCommandeDVDRelancer_Click(object sender, EventArgs e)
+        {
+            CommandeDocument commandeDocument = (CommandeDocument)bdgCommandesDvdListe.List[bdgCommandesDvdListe.Position];
+            Suivi nouveauSuivi = lesSuivis.Find(suivi => suivi.Libelle == "Relancée");
+            ModifEtatSuiviCommandeDocumentDvd(commandeDocument.Id, nouveauSuivi);
+        }
+        /// <summary>
+        /// Modification de l'état de la commande (Livrée)
+        /// Notification de la création d'exemplaire
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCommandeDVDConfirmation_Click(object sender, EventArgs e)
+        {
+            CommandeDocument commandeDocument = (CommandeDocument)bdgCommandesDvdListe.List[bdgCommandesDvdListe.Position];
+            Suivi nouveauSuivi = lesSuivis.Find(suivi => suivi.Libelle == "Livrée");
+            if (ModifEtatSuiviCommandeDocumentDvd(commandeDocument.Id, nouveauSuivi))
+            {
+                MessageBox.Show("Les exemplaires ont été ajoutés dans la base de données.", "Information");
+            }
+        }
+        /// <summary>
+        /// Modification de l'état de la commande (Réglée)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCommandeDVDRegler_Click(object sender, EventArgs e)
+        {
+            CommandeDocument commandeDocument = (CommandeDocument)bdgCommandesDvdListe.List[bdgCommandesDvdListe.Position];
+            Suivi nouveauSuivi = lesSuivis.Find(suivi => suivi.Libelle == "Réglée");
+            ModifEtatSuiviCommandeDocumentDvd(commandeDocument.Id, nouveauSuivi);
+        }
+        /// <summary>
+        /// Modification de l'état du suivi
+        /// </summary>
+        /// <param name="idCommandeDocument">identifiant du document concerné</param>
+        /// <param name="nouveauSuivi">nouvel état de suivi</param>
+        private bool ModifEtatSuiviCommandeDocumentDvd(string idCommandeDocument, Suivi nouveauSuivi)
+        {
+            if (ConfirmationModifSuiviCommande(nouveauSuivi.Libelle))
+            {
+                if (controle.ModifSuiviCommandeDocument(idCommandeDocument, nouveauSuivi.Id))
+                {
+                    AfficheCommandeDocumentDvd();
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Une erreur s'est produite.", "Erreur");
+                    return false;
+                }
+            }
+            return false;
         }
 
         #endregion
