@@ -389,5 +389,36 @@ namespace Mediatek86.modele
                 return false;
             }
         }
+
+        /// <summary>
+        /// Modification de l'état de suivi d'une CommandeDocument
+        /// </summary>
+        /// <param name="idCommandeDocument">Identifiant CommandeDocument à modifier</param>
+        /// <param name="idSuivi">Identifiant du nouveau état de suivi</param>
+        /// <returns>True si la modification a pu se faire</returns>
+        public static bool ModifSuiviCommandeDocument(string idCommandeDocument, int idSuivi)
+        {
+            try
+            {
+                List<string> requetes = new List<string>
+                {
+                    "update suivicommandedoc set idsuivi=@idsuivi where idcommande=@idcommande"
+                };
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    {"@idsuivi", idSuivi },
+                    {"@idcommande", idCommandeDocument },
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(requetes, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

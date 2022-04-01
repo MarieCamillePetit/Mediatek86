@@ -1987,6 +1987,7 @@ namespace Mediatek86.vue
             this.btnCommandeLivresAjouter.TabIndex = 0;
             this.btnCommandeLivresAjouter.Text = "Ajouter";
             this.btnCommandeLivresAjouter.UseVisualStyleBackColor = true;
+            this.btnCommandeLivresAjouter.Click += new System.EventHandler(this.btnCommandeLivresAjouter_Click);
             // 
             // grpCommandeLivres
             // 
@@ -2011,6 +2012,7 @@ namespace Mediatek86.vue
             // 
             // btnCommandeLivresAnnuler
             // 
+            this.btnCommandeLivresAnnuler.Enabled = false;
             this.btnCommandeLivresAnnuler.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCommandeLivresAnnuler.ForeColor = System.Drawing.Color.DarkRed;
             this.btnCommandeLivresAnnuler.Location = new System.Drawing.Point(140, 113);
@@ -2049,6 +2051,7 @@ namespace Mediatek86.vue
             // 
             // datepickCommandeLivresDateCommande
             // 
+            this.datepickCommandeLivresDateCommande.Enabled = false;
             this.datepickCommandeLivresDateCommande.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.datepickCommandeLivresDateCommande.Location = new System.Drawing.Point(256, 56);
             this.datepickCommandeLivresDateCommande.Name = "datepickCommandeLivresDateCommande";
@@ -2057,6 +2060,7 @@ namespace Mediatek86.vue
             // 
             // txbCommandeLivresNumeroCommande
             // 
+            this.txbCommandeLivresNumeroCommande.Enabled = false;
             this.txbCommandeLivresNumeroCommande.Location = new System.Drawing.Point(256, 28);
             this.txbCommandeLivresNumeroCommande.Name = "txbCommandeLivresNumeroCommande";
             this.txbCommandeLivresNumeroCommande.Size = new System.Drawing.Size(100, 20);
@@ -2104,6 +2108,7 @@ namespace Mediatek86.vue
             // 
             // btnCommandeLivresEnregistrer
             // 
+            this.btnCommandeLivresEnregistrer.Enabled = false;
             this.btnCommandeLivresEnregistrer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCommandeLivresEnregistrer.ForeColor = System.Drawing.Color.ForestGreen;
             this.btnCommandeLivresEnregistrer.Location = new System.Drawing.Point(140, 85);
@@ -2112,6 +2117,7 @@ namespace Mediatek86.vue
             this.btnCommandeLivresEnregistrer.TabIndex = 18;
             this.btnCommandeLivresEnregistrer.Text = "Enregistrer";
             this.btnCommandeLivresEnregistrer.UseVisualStyleBackColor = true;
+            this.btnCommandeLivresEnregistrer.Click += new System.EventHandler(this.btnCommandeLivresEnregistrer_Click);
             // 
             // grpRechercheLivreCommande
             // 
@@ -2197,6 +2203,7 @@ namespace Mediatek86.vue
             this.dgvCommandeLivresListe.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCommandeLivresListe.Size = new System.Drawing.Size(391, 134);
             this.dgvCommandeLivresListe.TabIndex = 52;
+            this.dgvCommandeLivresListe.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DgvLivresListeCommande_ColumnHeaderMouseClick);
             // 
             // txbCommandeLivresImage
             // 
