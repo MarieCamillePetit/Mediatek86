@@ -32,6 +32,7 @@ namespace Mediatek86.vue
         private List<CommandeDocument> lesCommandeDocument = new List<CommandeDocument>();
         private readonly BindingSource bdgCommandesLivresListe = new BindingSource();
         private List<Suivi> lesSuivis = new List<Suivi>();
+        private readonly BindingSource bdgCommandesDvdListe = new BindingSource();
 
         #endregion
 
@@ -1785,10 +1786,273 @@ namespace Mediatek86.vue
                     AccesModificationCommandeLivres(false);
                     break;
             }
-
-            #endregion
-
-
         }
+        #endregion
+
+        #region Commande DVD
+
+        //-----------------------------------------------------------
+        // ONGLET "DVD"
+        //-----------------------------------------------------------
+
+        /// <summary>
+        /// Onglet DVD
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tabCommandeDVD_Enter(object sender, EventArgs e)
+        {
+            lesDvd = controle.GetAllDvd();
+            lesSuivis = controle.GetAllSuivis();
+            AccesGestionCommandeDvd(false);
+            txbCommandeDVDNumero.Text = "";
+            VideCommandeDvdInfos();
+            VideDetailsCommandeDvd();
+            dgvCommandeDVDListe.DataSource = null;
+        }
+
+        /// <summary>
+        /// Recherche d'un DVD à partir du numéro et affichage les informations
+        /// </summary>
+        private void CommandeDvdRechercher()
+        {
+            if (!txbCommandeDVDNumero.Text.Equals(""))
+            {
+                Dvd dvd = lesDvd.Find(x => x.Id.Equals(txbCommandeDVDNumero.Text.Trim()));
+                if (dvd != null)
+                {
+                    AfficheCommandeDvdInfos(dvd);
+                }
+                else
+                {
+                    MessageBox.Show("Numéro introuvable");
+                    txbCommandeDVDNumero.Text = "";
+                    txbCommandeDVDNumero.Focus();
+                    VideCommandeDvdInfos();
+                }
+            }
+            else
+            {
+                VideCommandeDvdInfos();
+            }
+        }
+
+        /// <summary>
+        /// Affiche les informations du DVD
+        /// </summary>
+        /// <param name="dvd">Le DVD sélectionné</param>
+        private void AfficheCommandeDvdInfos(Dvd dvd)
+        {
+            // affiche les informations
+            txbCommandeDVDTitre.Text = dvd.Titre;
+            txbCommandeDVDReali.Text = dvd.Realisateur;
+            txbCommandeDVDSynopsis.Text = dvd.Synopsis;
+            txbCommandeDVDGenre.Text = dvd.Genre;
+            txbCommandeDVDPublic.Text = dvd.Public;
+            txbCommandeDVDRayon.Text = dvd.Rayon;
+            txbCommandeDVDImage.Text = dvd.Image;
+            txbCommandeDureeDVD.Text = dvd.Duree.ToString();
+            string image = dvd.Image;
+            try
+            {
+                pcbCommandeDVDImage.Image = Image.FromFile(image);
+            }
+            catch
+            {
+                pcbCommandeDVDImage.Image = null;
+            }
+            // affiche la liste des commandes
+            AfficheCommandeDocumentDvd();
+
+            // active la zone de gestion des commandes
+            AccesGestionCommandeDvd(true);
+        }
+
+        /// <summary>
+        /// Récupère, affiche les commandes d'un DVD
+        /// </summary>
+        private void AfficheCommandeDocumentDvd()
+        {
+            string idDocument = txbCommandeDVDNumero.Text.Trim();
+            lesCommandeDocument = controle.GetCommandeDocument(idDocument);
+            RemplirCommandeDvdListe(lesCommandeDocument);
+            AfficheCommandeDvdDetailSelect();
+        }
+
+        /// <summary>
+        /// Affiche le détail de la commande sélectionnée
+        /// </summary>
+        private void AfficheCommandeDvdDetailSelect()
+        {
+            if (dgvCommandeDVDListe.CurrentCell != null)
+            {
+                CommandeDocument commandeDocument = (CommandeDocument)bdgCommandesDvdListe.List[bdgCommandesDvdListe.Position];
+                AfficheCommandeDvdDetails(commandeDocument);
+                AccesBtnModificationCommandeDvd(commandeDocument);
+            }
+            else
+            {
+                AccesGestionCommandeDvd(false);
+                VideDetailsCommandeDvd();
+            }
+        }
+
+        /// <summary>
+        /// Affiche les détails d'une commande de DVD
+        /// </summary>
+        /// <param name="commandeDocument">Commande concernée</param>
+        private void AfficheCommandeDvdDetails(CommandeDocument commandeDocument)
+        {
+            txbCommandeDVDNumeroCommande.Text = commandeDocument.Id;
+            datepickCommandeDVDDateCommande.Value = commandeDocument.DateCommande;
+            numCommandeDVDExemplaires.Value = commandeDocument.NbExemplaires;
+            txbCommandeDVDMontant.Text = commandeDocument.Montant.ToString("C2", CultureInfo.CreateSpecificCulture("fr-FR"));
+        }
+
+        /// <summary>
+        /// Remplit le dategrid avec la collection reçue en paramètre
+        /// </summary>
+        /// <param name="lesCommandeDocument">Collection de CommandeDocument</param>
+        private void RemplirCommandeDvdListe(List<CommandeDocument> lesCommandeDocument)
+        {
+            bdgCommandesDvdListe.DataSource = lesCommandeDocument;
+            dgvCommandeDVDListe.DataSource = bdgCommandesDvdListe;
+            dgvCommandeDVDListe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvCommandeDVDListe.Columns["id"].Visible = false;
+            dgvCommandeDVDListe.Columns["idSuivi"].Visible = false;
+            dgvCommandeDVDListe.Columns["idLivreDvd"].Visible = false;
+            dgvCommandeDVDListe.Columns["dateCommande"].DisplayIndex = 0;
+            dgvCommandeDVDListe.Columns[5].HeaderCell.Value = "Date";
+            dgvCommandeDVDListe.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvCommandeDVDListe.Columns["montant"].DisplayIndex = 1;
+            dgvCommandeDVDListe.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvCommandeDVDListe.Columns[6].DefaultCellStyle.Format = "c2";
+            dgvCommandeDVDListe.Columns[6].DefaultCellStyle.FormatProvider = CultureInfo.GetCultureInfo("fr-FR");
+            dgvCommandeDVDListe.Columns[0].HeaderCell.Value = "Exemplaires";
+            dgvCommandeDVDListe.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvCommandeDVDListe.Columns[2].HeaderCell.Value = "Etat";
+            dgvCommandeDVDListe.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        }
+
+        /// <summary>
+        /// Evénement clic sur le bouton de recherche de DVD
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCommandeDvdRechercher_Click(object sender, EventArgs e)
+        {
+            CommandeDvdRechercher();
+        }
+
+        /// <summary>
+        /// Evénement sur la touche entrer déclenche la recherche
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txbCommandeDvdNumero_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                btnCommandeDvdRechercher_Click(sender, e);
+            }
+        }
+
+        /// <summary>
+        /// Vide les zones d'affichage des informations du DVD
+        /// </summary>
+        private void VideCommandeDvdInfos()
+        {
+            txbCommandeDVDTitre.Text = "";
+            txbCommandeDVDReali.Text = "";
+            txbCommandeDVDSynopsis.Text = "";
+            txbCommandeDVDGenre.Text = "";
+            txbCommandeDVDPublic.Text = "";
+            txbCommandeDVDRayon.Text = "";
+            txbCommandeDVDImage.Text = "";
+            txbCommandeDureeDVD.Text = "";
+            pcbCommandeDVDImage.Image = null;
+        }
+
+
+        /// <summary>
+        /// Vide les zones d'affichage des détails de commande
+        /// </summary>
+        private void VideDetailsCommandeDvd()
+        {
+            txbCommandeDVDNumeroCommande.Text = "";
+            datepickCommandeDVDDateCommande.Value = DateTime.Now;
+            numCommandeDVDExemplaires.Value = 1;
+            txbCommandeDVDMontant.Text = "";
+        }
+
+        /// <summary>
+        /// Active/Désactive la zone de gestion des commandes et bouton ajouter
+        /// </summary>
+        /// <param name="acces">true autorise l'accès</param>
+        private void AccesGestionCommandeDvd(bool acces)
+        {
+            grpGestionCommandeDVD.Enabled = acces;
+            btnCommandeDVDEnregistrer.Enabled = acces;
+        }
+
+        /// <summary>
+        /// Active/Désactive la zone détails d'une commande et les boutons (valider, annuler, ajouter)
+        /// </summary>
+        /// <param name="acces">True active les boutons Valider et Annuler, désactive le bouton Ajouter, dévérouille les champs</param>
+        private void AccesDetailsCommandeDvd(bool acces)
+        {
+            VideDetailsCommandeDvd();
+            grpCommandeDVD.Enabled = acces;
+            txbCommandeDVDNumeroCommande.Enabled = acces;
+            datepickCommandeDVDDateCommande.Enabled = acces;
+            numCommandeDVDExemplaires.Enabled = acces;
+            txbCommandeDVDMontant.Enabled = acces;
+            btnCommandeDVDEnregistrer.Enabled = acces;
+            btnCommandeDVDAnnuler.Enabled = acces;
+            btnCommandeDVDEnregistrer.Enabled = !acces;
+        }
+
+        /// <summary>
+        /// Active/Désactive les boutons de gestion de commande (sauf ajout)
+        /// </summary>
+        private void AccesModificationCommandeDvd(bool acces)
+        {
+            btnCommandeDVDRelancer.Enabled = acces;
+            btnCommandeDVDConfirmation.Enabled = acces;
+            btnCommandeDVDRegler.Enabled = acces;
+            btnCommandeDVDSupprimer.Enabled = acces;
+        }
+
+        /// <summary>
+        /// Active/Désactive les boutons de gestion de commande en fonction de l'état de suivi
+        /// </summary>
+        /// <param name="commandeDocument">CommandeDocument concernée</param>
+        private void AccesBtnModificationCommandeDvd(CommandeDocument commandeDocument)
+        {
+            string etatSuivi = commandeDocument.LibelleSuivi;
+            switch (etatSuivi)
+            {
+                case "en cours":
+                case "relancée":
+                    btnCommandeDVDRelancer.Enabled = true;
+                    btnCommandeDVDConfirmation.Enabled = true;
+                    btnCommandeDVDRegler.Enabled = false;
+                    btnCommandeDVDSupprimer.Enabled = true;
+                    break;
+                case "livrée":
+                    btnCommandeDVDRelancer.Enabled = false;
+                    btnCommandeDVDConfirmation.Enabled = false;
+                    btnCommandeDVDRegler.Enabled = true;
+                    btnCommandeDVDSupprimer.Enabled = false;
+                    break;
+                case "réglée":
+                    AccesModificationCommandeDvd(false);
+                    break;
+            }
+        }
+
+
+        #endregion
     }
 }

@@ -2384,6 +2384,7 @@ namespace Mediatek86.vue
             this.tabCommandeDVD.TabIndex = 6;
             this.tabCommandeDVD.Text = "Commande d\'un DVD";
             this.tabCommandeDVD.UseVisualStyleBackColor = true;
+            this.tabCommandeDVD.Enter += new System.EventHandler(this.tabCommandeDVD_Enter);
             // 
             // grpRechercheDVDCommande
             // 
@@ -2425,6 +2426,8 @@ namespace Mediatek86.vue
             this.btnCommandeDVDRechercher.TabIndex = 56;
             this.btnCommandeDVDRechercher.Text = "Rechercher";
             this.btnCommandeDVDRechercher.UseVisualStyleBackColor = true;
+            this.btnCommandeDVDRechercher.Click += new System.EventHandler(this.btnCommandeDvdRechercher_Click);
+            this.btnCommandeDVDRechercher.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txbCommandeDvdNumero_KeyDown);
             // 
             // dgvCommandeDVDListe
             // 
