@@ -2659,6 +2659,7 @@ namespace Mediatek86.vue
             this.btnCommandeDVDSupprimer.TabIndex = 4;
             this.btnCommandeDVDSupprimer.Text = "Supprimer";
             this.btnCommandeDVDSupprimer.UseVisualStyleBackColor = true;
+            this.btnCommandeDVDSupprimer.Click += new System.EventHandler(this.btnCommandeDVDSupprimer_Click);
             // 
             // btnCommandeDVDRegler
             // 
