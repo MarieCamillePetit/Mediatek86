@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediatek86", "Mediatek86.csproj", "{810296AE-B290-4E67-A945-19806086CAFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecFlowMediatek86", "SpecFlowMediatek86\SpecFlowMediatek86.csproj", "{C319B9C5-2C30-4DF1-933A-B22072CD5388}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,26 @@ Global
 		{810296AE-B290-4E67-A945-19806086CAFE}.Release|x64.Build.0 = Release|Any CPU
 		{810296AE-B290-4E67-A945-19806086CAFE}.Release|x86.ActiveCfg = Release|Any CPU
 		{810296AE-B290-4E67-A945-19806086CAFE}.Release|x86.Build.0 = Release|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Debug|ARM.Build.0 = Debug|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Debug|x64.Build.0 = Debug|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Debug|x86.Build.0 = Debug|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Release|ARM.Build.0 = Release|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Release|ARM64.Build.0 = Release|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Release|x64.ActiveCfg = Release|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Release|x64.Build.0 = Release|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Release|x86.ActiveCfg = Release|Any CPU
+		{C319B9C5-2C30-4DF1-933A-B22072CD5388}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

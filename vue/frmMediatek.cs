@@ -39,7 +39,7 @@ namespace Mediatek86.vue
         #endregion
 
 
-        internal FrmMediatek(Controle controle)
+        public FrmMediatek(Controle controle)
         {
             InitializeComponent();
             this.controle = controle;
@@ -63,8 +63,10 @@ namespace Mediatek86.vue
         {
             if (controle.userService.Libelle != "prêt")
             {
-                FrmAlerteFinAbonnements alerteFinAbonnements = new FrmAlerteFinAbonnements(controle);
-                alerteFinAbonnements.StartPosition = FormStartPosition.CenterParent;
+                FrmAlerteFinAbonnements alerteFinAbonnements = new FrmAlerteFinAbonnements(controle)
+                {
+                    StartPosition = FormStartPosition.CenterParent
+                };
                 alerteFinAbonnements.ShowDialog();
             }
         }
@@ -170,8 +172,10 @@ namespace Mediatek86.vue
                 Revue revue = lesRevues.Find(x => x.Id.Equals(txbRevuesNumRecherche.Text));
                 if (revue != null)
                 {
-                    List<Revue> revues = new List<Revue>();
-                    revues.Add(revue);
+                    List<Revue> revues = new List<Revue>
+                    {
+                        revue
+                    };
                     RemplirRevuesListe(revues);
                 }
                 else
@@ -489,8 +493,10 @@ namespace Mediatek86.vue
                 Livre livre = lesLivres.Find(x => x.Id.Equals(txbLivresNumRecherche.Text));
                 if (livre != null)
                 {
-                    List<Livre> livres = new List<Livre>();
-                    livres.Add(livre);
+                    List<Livre> livres = new List<Livre>
+                    {
+                        livre
+                    };
                     RemplirLivresListe(livres);
                 }
                 else
@@ -807,8 +813,10 @@ namespace Mediatek86.vue
                 Dvd dvd = lesDvd.Find(x => x.Id.Equals(txbDvdNumRecherche.Text));
                 if (dvd != null)
                 {
-                    List<Dvd> Dvd = new List<Dvd>();
-                    Dvd.Add(dvd);
+                    List<Dvd> Dvd = new List<Dvd>
+                    {
+                        dvd
+                    };
                     RemplirDvdListe(Dvd);
                 }
                 else
