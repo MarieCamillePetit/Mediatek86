@@ -150,6 +150,15 @@ namespace Mediatek86.controleur
         {
             return Dao.ModifSuiviCommandeDocument(idCommandeDocument, idSuivi);
         }
+
+        /// <summary>
+        /// récupère les abonnements d'une revue
+        /// </summary>
+        /// <returns>Collection d'objets Abonnement</returns>
+        public List<Abonnement> GetAbonnement(string idDocument)
+        {
+            return Dao.GetAbonnement(idDocument);
+        }
     }
 
 }

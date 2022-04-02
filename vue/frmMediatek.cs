@@ -33,6 +33,8 @@ namespace Mediatek86.vue
         private readonly BindingSource bdgCommandesLivresListe = new BindingSource();
         private List<Suivi> lesSuivis = new List<Suivi>();
         private readonly BindingSource bdgCommandesDvdListe = new BindingSource();
+        private List<Abonnement> lesAbonnements = new List<Abonnement>();
+        private readonly BindingSource bdgAbonnementRevuesListe = new BindingSource(); 
 
         #endregion
 
@@ -1792,7 +1794,7 @@ namespace Mediatek86.vue
         #region Commande DVD
 
         //-----------------------------------------------------------
-        // ONGLET "DVD"
+        // ONGLET "Commande de DVD"
         //-----------------------------------------------------------
 
         /// <summary>
@@ -2262,6 +2264,127 @@ namespace Mediatek86.vue
                 }
             }
             return false;
+        }
+
+        #endregion
+
+        #region Abonnement revue
+
+        //-----------------------------------------------------------
+        // ONGLET "Abonnement revue"
+        //-----------------------------------------------------------
+
+        /// <summary>
+        /// Onglet Abonnement
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tabAboRevue_Enter(object sender, EventArgs e)
+        {
+            lesRevues = controle.GetAllRevues();
+            txbCommandeRevueNumero.Text = "";
+            VideAbonnementRevuesInfos();
+        }
+
+        /// <summary>
+        /// Méthode qui recherche une revue avec son numéro 
+        /// et affichage des informations
+        /// </summary>
+        private void AbonnementRevuesRechercher()
+        {
+            if (!txbCommandeRevueNumero.Text.Equals(""))
+            {
+                Revue revue = lesRevues.Find(x => x.Id.Equals(txbCommandeRevueNumero.Text.Trim()));
+                if (revue != null)
+                {
+                    AfficheAbonnementRevuesInfos(revue);
+                }
+                else
+                {
+                    MessageBox.Show("Numéro introuvable");
+                    txbCommandeRevueNumero.Text = "";
+                    txbCommandeRevueNumero.Focus();
+                    VideAbonnementRevuesInfos();
+                }
+            }
+            else
+            {
+                VideAbonnementRevuesInfos();
+            }
+        }
+        /// <summary>
+        /// Affichage des informations
+        /// </summary>
+        /// <param name="revue"></param>
+        private void AfficheAbonnementRevuesInfos(Revue revue)
+        {
+            txbAboRevueTitre.Text = revue.Titre;
+            txbAboRevuePeriodicite.Text = revue.Periodicite;
+            txbAboRevueDelaiMiseADispo.Text = revue.DelaiMiseADispo.ToString();
+            txbAboRevueGenre.Text = revue.Genre;
+            txbAboRevuePublic.Text = revue.Public;
+            txbAboRevueRayon.Text = revue.Rayon;
+            txbAboRevueImage.Text = revue.Image;
+            chckbxEmpruntable.Checked = revue.Empruntable;
+            string image = revue.Image;
+            try
+            {
+                pcbAboExemplaireRevueImage.Image = Image.FromFile(image);
+            }
+            catch
+            {
+                pcbAboExemplaireRevueImage.Image = null;
+            }
+        }
+
+        /// <summary>
+        /// Vide les informations de la revue
+        /// </summary>
+        private void VideAbonnementRevuesInfos()
+        {
+            txbAboRevueTitre.Text = "";
+            txbAboRevuePeriodicite.Text = "";
+            txbAboRevueDelaiMiseADispo.Text = "";
+            txbAboRevueGenre.Text = "";
+            txbAboRevuePublic.Text = "";
+            txbAboRevueRayon.Text = "";
+            txbAboRevueImage.Text = "";
+            chckbxEmpruntable.Checked = false;
+            pcbAboExemplaireRevueImage.Image = null;
+        }
+
+        /// <summary>
+        /// Clic sur le bouton de recherchet et pour afficher les informations
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCommandeRevueRechercher_Click(object sender, EventArgs e)
+        {
+            AbonnementRevuesRechercher();
+        }
+
+        /// <summary>
+        /// Touche "enter" pour rechercher et pour afficher les informations
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txbCommandeRevueNumero_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                btnCommandeRevueRechercher_Click(sender, e);
+            }
+        }
+
+        /// <summary>
+        /// Changement de numéro entraine le vidage des informations 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txbCommandeRevueNumero_TextChanged(object sender, EventArgs e)
+        {
+            VideAbonnementRevuesInfos();
         }
 
         #endregion

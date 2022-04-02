@@ -91,6 +91,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="controleur\Controle.cs" />
+    <Compile Include="metier\Abonnement.cs" />
+    <Compile Include="metier\FinAbonnement.cs" />
     <Compile Include="metier\Suivi.cs" />
     <Compile Include="metier\CommandeDocument.cs" />
     <Compile Include="metier\Commande.cs" />
