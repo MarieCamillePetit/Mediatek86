@@ -4,8 +4,9 @@ using Mediatek86.metier;
 using Mediatek86.vue;
 using System;
 using System.Linq;
-
-
+using System.Windows.Forms;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Mediatek86.controleur
 {
@@ -18,6 +19,7 @@ namespace Mediatek86.controleur
         private readonly List<Categorie> lesPublics;
         private readonly List<Categorie> lesGenres;
         private readonly List<Suivi> lesSuivis;
+        public Service userService { get; private set; }
 
         /// <summary>
         /// Ouverture de la fenêtre
@@ -31,8 +33,13 @@ namespace Mediatek86.controleur
             lesRayons = Dao.GetAllRayons();
             lesPublics = Dao.GetAllPublics();
             lesSuivis = Dao.GetAllSuivis();
-            FrmMediatek frmMediatek = new FrmMediatek(this);
-            frmMediatek.ShowDialog();
+            FrmAuthentification authentification = new FrmAuthentification(this);
+            Application.Run(authentification);
+            if (authentification.onSuccessAuth)
+            {
+                FrmMediatek frmMediatek = new FrmMediatek(this);
+                Application.Run(frmMediatek);
+            }
         }
 
         /// <summary>
@@ -220,6 +227,40 @@ namespace Mediatek86.controleur
         public List<FinAbonnement> GetFinAbonnement()
         {
             return Dao.GetFinAbonnement();
+        }
+
+        /// <summary>
+        /// Récupère le service de l'utilisateur
+        /// </summary>
+        /// <param name="utilisateur">Utilisateur</param>
+        /// <param name="mdp">Mot de passe=</param>
+        /// <returns>le Service si connexion est vrai</returns>
+        public Service Authentification(string utilisateur, string mdp)
+        {
+            Service service = Dao.Authentification(utilisateur, hashMD5(mdp));
+            userService = service;
+            return service;
+        }
+
+        /// <summary>
+        /// hash de mot de passe
+        /// </summary>
+        /// <param name="mdp">Mot de passe</param>
+        /// <returns>Mot de passe haché</returns>
+        public string hashMD5(string mdp)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.ASCII.GetBytes(mdp);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
         }
 
     }

@@ -43,6 +43,16 @@ namespace Mediatek86.vue
         {
             InitializeComponent();
             this.controle = controle;
+            if (controle.userService.Libelle == "prêt")
+            {
+
+                tabOngletsApplication.TabPages.Remove(tabCommandeLivre);
+                tabOngletsApplication.TabPages.Remove(tabCommandeDVD);
+                tabOngletsApplication.TabPages.Remove(tabAboRevue);
+                grpReceptionExemplaire.Visible = false;
+                
+            }
+
         }
         /// <summary>
         /// Dès l'ouverture de l'application la vue d'alerte de fin d'abonnements s'ouvre
@@ -51,9 +61,12 @@ namespace Mediatek86.vue
         /// <param name="e"></param>
         private void FrmMediatek_Shown(object sender, EventArgs e)
         {
-            FrmAlerteFinAbonnements alerteFinAbonnements = new FrmAlerteFinAbonnements(controle);
-            alerteFinAbonnements.StartPosition = FormStartPosition.CenterParent;
-            alerteFinAbonnements.ShowDialog();
+            if (controle.userService.Libelle != "prêt")
+            {
+                FrmAlerteFinAbonnements alerteFinAbonnements = new FrmAlerteFinAbonnements(controle);
+                alerteFinAbonnements.StartPosition = FormStartPosition.CenterParent;
+                alerteFinAbonnements.ShowDialog();
+            }
         }
 
 
@@ -1342,6 +1355,7 @@ namespace Mediatek86.vue
             lesLivres = controle.GetAllLivres();
             lesSuivis = controle.GetAllSuivis();
             AccesGestionCommandeLivres(false);
+            AccesDetailsCommandeLivres(false);
             txbCommandeLivreNumero.Text = "";
             VideCommandeLivresInfos();
             VideDetailsCommandeLivres();
@@ -1422,7 +1436,11 @@ namespace Mediatek86.vue
                 pcbCommandeLivresImage.Image = null;
             }
             AfficheCommandeDocumentLivre();
-            AccesGestionCommandeLivres(true);
+
+            if (dgvCommandeLivresListe.RowCount != 0)
+            {
+                AccesGestionCommandeLivres(true);
+            }
         }
 
         /// <summary>
@@ -1613,31 +1631,41 @@ namespace Mediatek86.vue
             // validation du champ montant
             if (!Double.TryParse(montantSaisie, out double montant))
             {
-                MessageBox.Show("Le montant doit être numérique.", "Attention");
+                MessageBox.Show("Le montant doit être numérique.", "Information");
                 txbCommandeLivresMontant.Text = "";
                 txbCommandeLivresMontant.Focus();
                 return;
             }
             CommandeDocument laCommandeDocument = new CommandeDocument(id, dateCommande, montant, nbExemplaires, idLivreDvd, idSuivi, libelleSuivi);
-            if (controle.CreerCommandeDocument(laCommandeDocument))
+            if (txbCommandeLivresNumeroCommande.TextLength <= 5)
             {
-                AfficheCommandeDocumentLivre();
-                int addedRowIndex = -1;
-                DataGridViewRow row = dgvCommandeLivresListe.Rows
-                    .Cast<DataGridViewRow>()
-                    .First(r => r.Cells["id"].Value.ToString().Equals(id));
-                addedRowIndex = row.Index;
-                dgvCommandeLivresListe.Rows[addedRowIndex].Selected = true;
+                if (controle.CreerCommandeDocument(laCommandeDocument))
+                {
+                    AfficheCommandeDocumentLivre();
+                    int addedRowIndex = -1;
+                    DataGridViewRow row = dgvCommandeLivresListe.Rows
+                        .Cast<DataGridViewRow>()
+                        .First(r => r.Cells["id"].Value.ToString().Equals(id));
+                    addedRowIndex = row.Index;
+                    dgvCommandeLivresListe.Rows[addedRowIndex].Selected = true;
+                }
+                else
+                {
+                    MessageBox.Show("Le numéro de commande existe déjà.", "Information");
+                    txbCommandeLivresNumeroCommande.Text = "";
+                    txbCommandeLivresNumeroCommande.Focus();
+                }
+                AccesDetailsCommandeLivres(false);
+                AccesGestionCommandeLivres(true);
             }
             else
             {
-                MessageBox.Show("Le numéro de commande existe déjà.", "Erreur");
+                MessageBox.Show("Le numéro de commande ne doit pas dépasser 5 caractères.", "Information");
                 txbCommandeLivresNumeroCommande.Text = "";
                 txbCommandeLivresNumeroCommande.Focus();
             }
-            AccesDetailsCommandeLivres(false);
-            AccesGestionCommandeLivres(true);
         }
+
 
         /// <summary>
         /// Annulation d'une commande
@@ -1757,6 +1785,7 @@ namespace Mediatek86.vue
                 CommandeDocument commandeDocument = (CommandeDocument)bdgCommandesLivresListe.List[bdgCommandesLivresListe.Position];
                 AfficheCommandeLivresDetails(commandeDocument);
                 AccesBtnModificationCommandeLivres(commandeDocument);
+
             }
             else
             {
@@ -1818,6 +1847,7 @@ namespace Mediatek86.vue
             lesDvd = controle.GetAllDvd();
             lesSuivis = controle.GetAllSuivis();
             AccesGestionCommandeDvd(false);
+            AccesDetailsCommandeDvd(false);
             txbCommandeDVDNumero.Text = "";
             VideCommandeDvdInfos();
             VideDetailsCommandeDvd();
@@ -1874,11 +1904,12 @@ namespace Mediatek86.vue
             {
                 pcbCommandeDVDImage.Image = null;
             }
-            // affiche la liste des commandes
             AfficheCommandeDocumentDvd();
 
-            // active la zone de gestion des commandes
+            if (dgvCommandeDVDListe.RowCount != 0)
+            {
             AccesGestionCommandeDvd(true);
+            }
         }
 
         /// <summary>
@@ -2149,30 +2180,40 @@ namespace Mediatek86.vue
             String montantSaisie = txbCommandeDVDMontant.Text.Replace('.', ',');
             if (!Double.TryParse(montantSaisie, out double montant))
             {
-                MessageBox.Show("Le montant doit être numérique.", "Erreur");
+                MessageBox.Show("Le montant doit être numérique.", "Information");
                 txbCommandeDVDMontant.Text = "";
                 txbCommandeDVDMontant.Focus();
                 return;
             }
             CommandeDocument laCommandeDocument = new CommandeDocument(id, dateCommande, montant, nbExemplaires, idLivreDvd, idSuivi, libelleSuivi);
-            if (controle.CreerCommandeDocument(laCommandeDocument))
+            if (txbCommandeDVDNumeroCommande.TextLength <= 5)
             {
-                AfficheCommandeDocumentDvd();
-                int addedRowIndex = -1;
-                DataGridViewRow row = dgvCommandeDVDListe.Rows
-                    .Cast<DataGridViewRow>()
-                    .First(r => r.Cells["id"].Value.ToString().Equals(id));
-                addedRowIndex = row.Index;
-                dgvCommandeDVDListe.Rows[addedRowIndex].Selected = true;
+                if (controle.CreerCommandeDocument(laCommandeDocument))
+                {
+                    AfficheCommandeDocumentDvd();
+                    int addedRowIndex = -1;
+                    DataGridViewRow row = dgvCommandeDVDListe.Rows
+                        .Cast<DataGridViewRow>()
+                        .First(r => r.Cells["id"].Value.ToString().Equals(id));
+                    addedRowIndex = row.Index;
+                    dgvCommandeDVDListe.Rows[addedRowIndex].Selected = true;
+                }
+                else
+                {
+                    MessageBox.Show("Ce numéro de commande existe déjà.", "Information");
+                    txbCommandeDVDNumeroCommande.Text = "";
+                    txbCommandeDVDNumeroCommande.Focus();
+                }
+                AccesDetailsCommandeDvd(false);
+                AccesGestionCommandeDvd(true);
             }
             else
             {
-                MessageBox.Show("Ce numéro de commande existe déjà.", "Erreur");
+                MessageBox.Show("Le numéro de commande ne doit pas dépasser 5 caractères.", "Information");
                 txbCommandeDVDNumeroCommande.Text = "";
                 txbCommandeDVDNumeroCommande.Focus();
             }
-            AccesDetailsCommandeDvd(false);
-            AccesGestionCommandeDvd(true);
+         
         }
 
         /// <summary>
@@ -2296,6 +2337,7 @@ namespace Mediatek86.vue
             txbCommandeRevueNumero.Text = "";
             AccesGestionAbonnementRevues(false);
             VideAbonnementRevuesInfos();
+            AccesDetailsAbonnementRevues(false);
             VideDetailsAbonnementRevues();
             dgvAboRevuesListe.DataSource = null;
         }
@@ -2350,7 +2392,10 @@ namespace Mediatek86.vue
                 pcbAboExemplaireRevueImage.Image = null;
             }
             AfficheAbonnementRevues();
-            AccesGestionAbonnementRevues(true);
+            if (dgvAboRevuesListe.RowCount != 0)
+            {
+                AccesGestionAbonnementRevues(true);
+            }
         }
 
         /// <summary>
@@ -2430,6 +2475,7 @@ namespace Mediatek86.vue
             {
                 VideDetailsAbonnementRevues();
                 AccesGestionAbonnementRevues(false);
+
             }
         }
 
@@ -2562,29 +2608,38 @@ namespace Mediatek86.vue
 
             if (!Double.TryParse(montantSaisie, out double montant))
             {
-                MessageBox.Show("Le montant doit être numérique.", "Erreur");
+                MessageBox.Show("Le montant doit être numérique.", "Information");
                 txbAboRevueNumeroMontant.Text = "";
                 txbAboRevueNumeroMontant.Focus();
                 return;
             }
             Abonnement abonnement = new Abonnement(id, dateCommande, montant, finAbonnement, idRevue);
-            if (controle.CreerAbonnement(abonnement))
+            if (txbAboRevueNumeroDetails.TextLength <= 5)
             {
-                AfficheAbonnementRevues();
+                if (controle.CreerAbonnement(abonnement))
+                {
+                    AfficheAbonnementRevues();
 
-                int addedRowIndex = -1;
-                DataGridViewRow row = dgvAboRevuesListe.Rows
-                    .Cast<DataGridViewRow>()
-                    .First(r => r.Cells["id"].Value.ToString().Equals(id));
-                addedRowIndex = row.Index;
-                dgvAboRevuesListe.Rows[addedRowIndex].Selected = true;
+                    int addedRowIndex = -1;
+                    DataGridViewRow row = dgvAboRevuesListe.Rows
+                        .Cast<DataGridViewRow>()
+                        .First(r => r.Cells["id"].Value.ToString().Equals(id));
+                    addedRowIndex = row.Index;
+                    dgvAboRevuesListe.Rows[addedRowIndex].Selected = true;
 
-                AccesDetailsAbonnementRevues(false);
-                AccesGestionAbonnementRevues(true);
+                    AccesDetailsAbonnementRevues(false);
+                    AccesGestionAbonnementRevues(true);
+                }
+                else
+                {
+                    MessageBox.Show("Ce numéro d'abonnement existe déjà.", "Information");
+                    txbAboRevueNumeroDetails.Text = "";
+                    txbAboRevueNumeroDetails.Focus();
+                }
             }
             else
             {
-                MessageBox.Show("Ce numéro d'abonnement existe déjà.", "Erreur");
+                MessageBox.Show("Le numéro d'abonnement ne doit pas dépasser 5 caractères.", "Information");
                 txbAboRevueNumeroDetails.Text = "";
                 txbAboRevueNumeroDetails.Focus();
             }

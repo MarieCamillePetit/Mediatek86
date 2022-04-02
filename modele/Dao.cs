@@ -514,7 +514,10 @@ namespace Mediatek86.modele
                 return false;
             }
         }
-
+        /// <summary>
+        /// Liste de la fin d'un abonnement
+        /// </summary>
+        /// <returns>Retour fin d'abonnement</returns>
         public static List<FinAbonnement> GetFinAbonnement()
         {
             List<FinAbonnement> lesFinAbonnement = new List<FinAbonnement>();
@@ -536,5 +539,33 @@ namespace Mediatek86.modele
 
             return lesFinAbonnement;
         }
+
+        /// <summary>
+        /// Retourne le service de l'utilisateur
+        /// </summary>
+        /// <param name="utilisateur">Utilisateur</param>
+        /// <param name="mdp">Mot de passe</param>
+        /// <returns>Retourne le service de l'utilisateur</returns>
+        public static Service Authentification(string utilisateur, string mdp)
+        {
+            Service service = null;
+            string req = "select s.ID, s.LIBELLE from utilisateur u join service s on u.ID = s.ID where u.NOM = @login and u.MDP = @pwd;";
+            Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    { "@login", utilisateur},
+                    {"@pwd", mdp }
+                };
+            BddMySql curs = BddMySql.GetInstance(connectionString);
+            curs.ReqSelect(req, parameters);
+
+            while (curs.Read())
+            {
+                service = new Service((int)curs.Field("id"), (string)curs.Field("libelle"));
+            }
+            curs.Close();
+            return service;
+        }
+
+
     }
 }

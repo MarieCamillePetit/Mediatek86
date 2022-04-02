@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="controleur\Controle.cs" />
     <Compile Include="metier\Abonnement.cs" />
+    <Compile Include="metier\Service.cs" />
     <Compile Include="metier\FinAbonnement.cs" />
     <Compile Include="metier\Suivi.cs" />
     <Compile Include="metier\CommandeDocument.cs" />
@@ -114,6 +115,12 @@
     <Compile Include="vue\FrmAlerteFinAbonnements.Designer.cs">
       <DependentUpon>FrmAlerteFinAbonnements.cs</DependentUpon>
     </Compile>
+    <Compile Include="vue\FrmAuthentification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vue\FrmAuthentification.Designer.cs">
+      <DependentUpon>FrmAuthentification.cs</DependentUpon>
+    </Compile>
     <Compile Include="vue\FrmMediatek.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +142,9 @@
     </Compile>
     <EmbeddedResource Include="vue\FrmAlerteFinAbonnements.resx">
       <DependentUpon>FrmAlerteFinAbonnements.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vue\FrmAuthentification.resx">
+      <DependentUpon>FrmAuthentification.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="vue\FrmMediatek.resx">
       <DependentUpon>FrmMediatek.cs</DependentUpon>
