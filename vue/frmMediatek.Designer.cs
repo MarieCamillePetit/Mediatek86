@@ -284,8 +284,8 @@ namespace Mediatek86.vue
             this.label99 = new System.Windows.Forms.Label();
             this.btnCommandeRevueRechercher = new System.Windows.Forms.Button();
             this.grpGestionAbo = new System.Windows.Forms.GroupBox();
-            this.btnDVDASupprimer = new System.Windows.Forms.Button();
-            this.btnDVDAjouter = new System.Windows.Forms.Button();
+            this.btnAboSupprimer = new System.Windows.Forms.Button();
+            this.btnAboAjouter = new System.Windows.Forms.Button();
             this.grpNouveauAbo = new System.Windows.Forms.GroupBox();
             this.dtpAboRevuesDateCommande = new System.Windows.Forms.DateTimePicker();
             this.btnAboRevueAnnuler = new System.Windows.Forms.Button();
@@ -3151,6 +3151,7 @@ namespace Mediatek86.vue
             this.dgvAboRevuesListe.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAboRevuesListe.Size = new System.Drawing.Size(521, 174);
             this.dgvAboRevuesListe.TabIndex = 52;
+            this.dgvAboRevuesListe.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAboRevuesListe_ColumnHeaderMouseClick);
             // 
             // chckbxEmpruntable
             // 
@@ -3349,8 +3350,8 @@ namespace Mediatek86.vue
             // 
             // grpGestionAbo
             // 
-            this.grpGestionAbo.Controls.Add(this.btnDVDASupprimer);
-            this.grpGestionAbo.Controls.Add(this.btnDVDAjouter);
+            this.grpGestionAbo.Controls.Add(this.btnAboSupprimer);
+            this.grpGestionAbo.Controls.Add(this.btnAboAjouter);
             this.grpGestionAbo.Location = new System.Drawing.Point(8, 660);
             this.grpGestionAbo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpGestionAbo.Name = "grpGestionAbo";
@@ -3360,28 +3361,29 @@ namespace Mediatek86.vue
             this.grpGestionAbo.TabStop = false;
             this.grpGestionAbo.Text = "Gestions des commandes";
             // 
-            // btnDVDASupprimer
+            // btnAboSupprimer
             // 
-            this.btnDVDASupprimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.btnDVDASupprimer.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnDVDASupprimer.Location = new System.Drawing.Point(628, 37);
-            this.btnDVDASupprimer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnDVDASupprimer.Name = "btnDVDASupprimer";
-            this.btnDVDASupprimer.Size = new System.Drawing.Size(463, 32);
-            this.btnDVDASupprimer.TabIndex = 4;
-            this.btnDVDASupprimer.Text = "Supprimer";
-            this.btnDVDASupprimer.UseVisualStyleBackColor = true;
+            this.btnAboSupprimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.btnAboSupprimer.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnAboSupprimer.Location = new System.Drawing.Point(628, 37);
+            this.btnAboSupprimer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnAboSupprimer.Name = "btnAboSupprimer";
+            this.btnAboSupprimer.Size = new System.Drawing.Size(463, 32);
+            this.btnAboSupprimer.TabIndex = 4;
+            this.btnAboSupprimer.Text = "Supprimer";
+            this.btnAboSupprimer.UseVisualStyleBackColor = true;
             // 
-            // btnDVDAjouter
+            // btnAboAjouter
             // 
-            this.btnDVDAjouter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.btnDVDAjouter.Location = new System.Drawing.Point(61, 37);
-            this.btnDVDAjouter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnDVDAjouter.Name = "btnDVDAjouter";
-            this.btnDVDAjouter.Size = new System.Drawing.Size(463, 32);
-            this.btnDVDAjouter.TabIndex = 0;
-            this.btnDVDAjouter.Text = "Ajouter";
-            this.btnDVDAjouter.UseVisualStyleBackColor = true;
+            this.btnAboAjouter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.btnAboAjouter.Location = new System.Drawing.Point(61, 37);
+            this.btnAboAjouter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnAboAjouter.Name = "btnAboAjouter";
+            this.btnAboAjouter.Size = new System.Drawing.Size(463, 32);
+            this.btnAboAjouter.TabIndex = 0;
+            this.btnAboAjouter.Text = "Ajouter";
+            this.btnAboAjouter.UseVisualStyleBackColor = true;
+            this.btnAboAjouter.Click += new System.EventHandler(this.btnAboAjouter_Click);
             // 
             // grpNouveauAbo
             // 
@@ -3406,6 +3408,7 @@ namespace Mediatek86.vue
             // 
             // dtpAboRevuesDateCommande
             // 
+            this.dtpAboRevuesDateCommande.Enabled = false;
             this.dtpAboRevuesDateCommande.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpAboRevuesDateCommande.Location = new System.Drawing.Point(745, 30);
             this.dtpAboRevuesDateCommande.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -3415,6 +3418,7 @@ namespace Mediatek86.vue
             // 
             // btnAboRevueAnnuler
             // 
+            this.btnAboRevueAnnuler.Enabled = false;
             this.btnAboRevueAnnuler.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAboRevueAnnuler.ForeColor = System.Drawing.Color.DarkRed;
             this.btnAboRevueAnnuler.Location = new System.Drawing.Point(187, 139);
@@ -3424,6 +3428,7 @@ namespace Mediatek86.vue
             this.btnAboRevueAnnuler.TabIndex = 62;
             this.btnAboRevueAnnuler.Text = "Annuler";
             this.btnAboRevueAnnuler.UseVisualStyleBackColor = true;
+            this.btnAboRevueAnnuler.Click += new System.EventHandler(this.btnAboRevueAnnuler_Click);
             // 
             // txbAboRevueNumeroMontant
             // 
@@ -3436,6 +3441,7 @@ namespace Mediatek86.vue
             // 
             // dtpAboRevuesFinCommande
             // 
+            this.dtpAboRevuesFinCommande.Enabled = false;
             this.dtpAboRevuesFinCommande.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpAboRevuesFinCommande.Location = new System.Drawing.Point(745, 74);
             this.dtpAboRevuesFinCommande.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -3445,6 +3451,7 @@ namespace Mediatek86.vue
             // 
             // txbAboRevueNumeroDetails
             // 
+            this.txbAboRevueNumeroDetails.Enabled = false;
             this.txbAboRevueNumeroDetails.Location = new System.Drawing.Point(341, 34);
             this.txbAboRevueNumeroDetails.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txbAboRevueNumeroDetails.Name = "txbAboRevueNumeroDetails";
@@ -3497,6 +3504,7 @@ namespace Mediatek86.vue
             // 
             // btnAboRevueEnregistrer
             // 
+            this.btnAboRevueEnregistrer.Enabled = false;
             this.btnAboRevueEnregistrer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAboRevueEnregistrer.ForeColor = System.Drawing.Color.ForestGreen;
             this.btnAboRevueEnregistrer.Location = new System.Drawing.Point(187, 105);
@@ -3506,6 +3514,7 @@ namespace Mediatek86.vue
             this.btnAboRevueEnregistrer.TabIndex = 18;
             this.btnAboRevueEnregistrer.Text = "Enregistrer";
             this.btnAboRevueEnregistrer.UseVisualStyleBackColor = true;
+            this.btnAboRevueEnregistrer.Click += new System.EventHandler(this.btnAboRevueEnregistrer_Click);
             // 
             // FrmMediatek
             // 
@@ -3792,8 +3801,8 @@ namespace Mediatek86.vue
         private System.Windows.Forms.Button btnCommandeDVDEnregistrer;
         private System.Windows.Forms.TabPage tabAboRevue;
         private System.Windows.Forms.GroupBox grpGestionAbo;
-        private System.Windows.Forms.Button btnDVDASupprimer;
-        private System.Windows.Forms.Button btnDVDAjouter;
+        private System.Windows.Forms.Button btnAboSupprimer;
+        private System.Windows.Forms.Button btnAboAjouter;
         private System.Windows.Forms.GroupBox grpNouveauAbo;
         private System.Windows.Forms.Button btnAboRevueAnnuler;
         private System.Windows.Forms.TextBox txbAboRevueNumeroMontant;

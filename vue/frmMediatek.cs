@@ -2283,7 +2283,10 @@ namespace Mediatek86.vue
         {
             lesRevues = controle.GetAllRevues();
             txbCommandeRevueNumero.Text = "";
+            AccesGestionAbonnementRevues(false);
             VideAbonnementRevuesInfos();
+            VideDetailsAbonnementRevues();
+            dgvAboRevuesListe.DataSource = null;
         }
 
         /// <summary>
@@ -2336,6 +2339,7 @@ namespace Mediatek86.vue
                 pcbAboExemplaireRevueImage.Image = null;
             }
             AfficheAbonnementRevues();
+            AccesGestionAbonnementRevues(true);
         }
 
         /// <summary>
@@ -2386,6 +2390,7 @@ namespace Mediatek86.vue
         private void txbCommandeRevueNumero_TextChanged(object sender, EventArgs e)
         {
             VideAbonnementRevuesInfos();
+            AccesGestionAbonnementRevues(false);
         }
 
 
@@ -2413,6 +2418,7 @@ namespace Mediatek86.vue
             else
             {
                 VideDetailsAbonnementRevues();
+                AccesGestionAbonnementRevues(false);
             }
         }
 
@@ -2454,6 +2460,138 @@ namespace Mediatek86.vue
             dtpAboRevuesDateCommande.Value = DateTime.Now;
             dtpAboRevuesFinCommande.Value = DateTime.Now;
             txbAboRevueNumeroMontant.Text = "";
+        }
+
+        /// <summary>
+        /// Permet de trier en fonction des colonnes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvAboRevuesListe_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string titreColonne = dgvAboRevuesListe.Columns[e.ColumnIndex].HeaderText;
+            List<Abonnement> sortedList = new List<Abonnement>();
+            switch (titreColonne)
+            {
+                case "Date de commande":
+                    sortedList = lesAbonnements.OrderBy(o => o.DateCommande).Reverse().ToList();
+                    break;
+                case "Montant":
+                    sortedList = lesAbonnements.OrderBy(o => o.Montant).Reverse().ToList();
+                    break;
+                case "Date de fin d'abonnement":
+                    sortedList = lesAbonnements.OrderBy(o => o.DateFinAbonnement).Reverse().ToList();
+                    break;
+            }
+            RemplirAbonnementRevuesListe(sortedList);
+        }
+
+        /// <summary>
+        /// Clic sur le bouton "ajouter" permet le déblocage de la zone de détail d'un abonnement
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAboAjouter_Click(object sender, EventArgs e)
+        {
+            AccesDetailsAbonnementRevues(true);
+            dtpAboRevuesFinCommande.Value = DateTime.Now.AddYears(1);
+            AccesGestionAbonnementRevues(true);
+        }
+
+        private void AccesDetailsAbonnementRevues(bool acces)
+        {
+            VideDetailsAbonnementRevues();
+            dgvAboRevuesListe.Enabled = acces;
+            txbAboRevueNumeroDetails.Enabled = acces;
+            txbAboRevueNumeroDetails.Focus();
+            dtpAboRevuesDateCommande.Enabled = acces;
+            dtpAboRevuesFinCommande.Enabled = acces;
+            txbAboRevueNumeroMontant.Enabled = acces;
+            btnAboRevueEnregistrer.Enabled = acces;
+            btnAboRevueAnnuler.Enabled = acces;
+            btnAboAjouter.Enabled = !acces;
+        }
+
+        /// <summary>
+        /// Active/Désactive la zone de gestion des abonnements
+        /// </summary>
+        /// <param name="acces">true autorise l'accès</param>
+        private void AccesGestionAbonnementRevues(bool acces)
+        {
+            grpGestionAbo.Enabled = acces;
+            btnAboAjouter.Enabled = acces;
+            btnAboSupprimer.Enabled = acces;
+        }
+
+        private void btnAboRevueEnregistrer_Click(object sender, EventArgs e)
+        {
+            if (txbAboRevueNumeroDetails.Text == "" || txbAboRevueNumeroMontant.Text == "")
+            {
+                MessageBox.Show("Veuillez remplir tous les champs.", "Information");
+                return;
+            }
+
+            if (DateTime.Compare(dtpAboRevuesDateCommande.Value, dtpAboRevuesFinCommande.Value) >= 0)
+            {
+                MessageBox.Show("La date de fin d'abonnement n'est pas valide.", "Information");
+                dtpAboRevuesFinCommande.Value = DateTime.Now.AddYears(1);
+                dtpAboRevuesFinCommande.Focus();
+                return;
+            }
+
+            String id = txbAboRevueNumeroDetails.Text;
+            DateTime dateCommande = dtpAboRevuesDateCommande.Value;
+            DateTime finAbonnement = dtpAboRevuesFinCommande.Value;
+            string idRevue = txbCommandeRevueNumero.Text.Trim();
+            String montantSaisie = txbAboRevueNumeroMontant.Text.Replace('.', ',');
+
+            // validation du champ montant
+            if (!Double.TryParse(montantSaisie, out double montant))
+            {
+                MessageBox.Show("Le montant doit être numérique.", "Erreur");
+                txbAboRevueNumeroMontant.Text = "";
+                txbAboRevueNumeroMontant.Focus();
+                return;
+            }
+            Abonnement abonnement = new Abonnement(id, dateCommande, montant, finAbonnement, idRevue);
+            if (controle.CreerAbonnement(abonnement))
+            {
+                AfficheAbonnementRevues();
+
+                // sélectionne la commande nouvellement créée
+                int addedRowIndex = -1;
+                DataGridViewRow row = dgvAboRevuesListe.Rows
+                    .Cast<DataGridViewRow>()
+                    .First(r => r.Cells["id"].Value.ToString().Equals(id));
+                addedRowIndex = row.Index;
+                dgvAboRevuesListe.Rows[addedRowIndex].Selected = true;
+
+                AccesDetailsAbonnementRevues(false);
+                AccesGestionAbonnementRevues(true);
+            }
+            else
+            {
+                MessageBox.Show("Ce numéro d'abonnement existe déjà.", "Erreur");
+                txbAboRevueNumeroDetails.Text = "";
+                txbAboRevueNumeroDetails.Focus();
+            }
+        }
+
+        private void btnAboRevueAnnuler_Click(object sender, EventArgs e)
+        {
+            if (!(txbAboRevueNumeroDetails.Text == "" && txbAboRevueNumeroMontant.Text == ""))
+            {
+                if (ConfirmationAnnulationCommande())
+                {
+                    AccesDetailsAbonnementRevues(false);
+                    AccesGestionAbonnementRevues(true);
+                }
+            }
+            else
+            {
+                AccesDetailsAbonnementRevues(false);
+                AccesGestionAbonnementRevues(true);
+            }
         }
 
 

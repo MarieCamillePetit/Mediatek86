@@ -159,6 +159,17 @@ namespace Mediatek86.controleur
         {
             return Dao.GetAbonnement(idDocument);
         }
+
+        /// <summary>
+        /// Création d'un abonnement
+        /// </summary>
+        /// <param name="abonnement">Objet Abonnement concerné</param>
+        /// <returns>True si la création a pu se faire</returns>
+        public bool CreerAbonnement(Abonnement abonnement)
+        {
+            return Dao.CreerAbonnement(abonnement);
+        }
+
     }
 
 }
