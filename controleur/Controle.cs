@@ -2,11 +2,14 @@
 using Mediatek86.modele;
 using Mediatek86.metier;
 using Mediatek86.vue;
+using System;
+using System.Linq;
+
 
 
 namespace Mediatek86.controleur
 {
-    internal class Controle
+    public class Controle
     {
         private readonly List<Livre> lesLivres;
         private readonly List<Dvd> lesDvd;
@@ -168,6 +171,55 @@ namespace Mediatek86.controleur
         public bool CreerAbonnement(Abonnement abonnement)
         {
             return Dao.CreerAbonnement(abonnement);
+        }
+
+        /// <summary>
+        /// Vérification si la suppression d'un  abonnement est possible
+        /// seulement possible quand l'abonnement n'est lié à aucun exemplaire
+        /// </summary>
+        /// <param name="abonnement">Abonnement concerné</param>
+        /// <returns>True si la suppression est possible</returns>
+        public bool CheckSupprAbonnement(Abonnement abonnement)
+        {
+            List<Exemplaire> lesExemplaires = GetExemplairesRevue(abonnement.IdRevue);
+            bool suppression = false;
+
+            foreach (Exemplaire exemplaire in lesExemplaires.Where(ex => ParutionDansAbonnement(abonnement.DateCommande, abonnement.DateFinAbonnement, ex.DateAchat)))
+            {
+                suppression = true;
+            }
+            return !suppression;
+        }
+
+        /// <summary>
+        /// Teste si dateParution est compris entre dateCommande et dateFinAbonnement
+        /// </summary>
+        /// <param name="dateCommande">Date de commande d'un abonnement</param>
+        /// <param name="dateFinAbonnement">Date de fin d'un abonnement</param>
+        /// <param name="dateParution">Date de parution d'un exemplaire</param>
+        /// <returns>True si la date est comprise</returns>
+        public bool ParutionDansAbonnement(DateTime dateCommande, DateTime dateFinAbonnement, DateTime dateParution)
+        {
+            return (DateTime.Compare(dateCommande, dateParution) < 0 && DateTime.Compare(dateParution, dateFinAbonnement) < 0);
+        }
+
+        /// <summary>
+        /// Demande la suppression d'un abonnement de la bdd
+        /// </summary>
+        /// <param name="idAbonnement">L'identifiant de l'abonnement à supprimer</param>
+        /// <returns>True si l'opération a réussi, sinon false</returns>
+        public bool SupprAbonnement(string idAbonnement)
+        {
+            return Dao.SupprAbonnement(idAbonnement);
+        }
+
+        /// <summary>
+        /// Récupère les abonnements qui expirent dans moins de 30 jours
+        /// </summary>
+        /// <returns>Collection d'objets de type Abonnement</returns>
+        public List<FinAbonnement> GetFinAbonnement()
+        {
+            return Dao.GetFinAbonnement();
         }
 
     }

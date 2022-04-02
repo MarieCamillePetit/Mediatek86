@@ -3372,6 +3372,7 @@ namespace Mediatek86.vue
             this.btnAboSupprimer.TabIndex = 4;
             this.btnAboSupprimer.Text = "Supprimer";
             this.btnAboSupprimer.UseVisualStyleBackColor = true;
+            this.btnAboSupprimer.Click += new System.EventHandler(this.btnAboSupprimer_Click);
             // 
             // btnAboAjouter
             // 
@@ -3525,6 +3526,7 @@ namespace Mediatek86.vue
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FrmMediatek";
             this.Text = "Gestion Médiathèque";
+            this.Shown += new System.EventHandler(this.FrmMediatek_Shown);
             this.chkAboRevueEmpruntable.ResumeLayout(false);
             this.tabLivres.ResumeLayout(false);
             this.grpLivresInfos.ResumeLayout(false);

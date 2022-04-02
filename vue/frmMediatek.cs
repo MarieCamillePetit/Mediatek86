@@ -44,6 +44,17 @@ namespace Mediatek86.vue
             InitializeComponent();
             this.controle = controle;
         }
+        /// <summary>
+        /// Dès l'ouverture de l'application la vue d'alerte de fin d'abonnements s'ouvre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FrmMediatek_Shown(object sender, EventArgs e)
+        {
+            FrmAlerteFinAbonnements alerteFinAbonnements = new FrmAlerteFinAbonnements(controle);
+            alerteFinAbonnements.StartPosition = FormStartPosition.CenterParent;
+            alerteFinAbonnements.ShowDialog();
+        }
 
 
         #region modules communs
@@ -2522,7 +2533,11 @@ namespace Mediatek86.vue
             btnAboAjouter.Enabled = acces;
             btnAboSupprimer.Enabled = acces;
         }
-
+        /// <summary>
+        /// Clic sur "enregistrer" permet la création d'un nouveau abonnement
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAboRevueEnregistrer_Click(object sender, EventArgs e)
         {
             if (txbAboRevueNumeroDetails.Text == "" || txbAboRevueNumeroMontant.Text == "")
@@ -2545,7 +2560,6 @@ namespace Mediatek86.vue
             string idRevue = txbCommandeRevueNumero.Text.Trim();
             String montantSaisie = txbAboRevueNumeroMontant.Text.Replace('.', ',');
 
-            // validation du champ montant
             if (!Double.TryParse(montantSaisie, out double montant))
             {
                 MessageBox.Show("Le montant doit être numérique.", "Erreur");
@@ -2558,7 +2572,6 @@ namespace Mediatek86.vue
             {
                 AfficheAbonnementRevues();
 
-                // sélectionne la commande nouvellement créée
                 int addedRowIndex = -1;
                 DataGridViewRow row = dgvAboRevuesListe.Rows
                     .Cast<DataGridViewRow>()
@@ -2576,7 +2589,11 @@ namespace Mediatek86.vue
                 txbAboRevueNumeroDetails.Focus();
             }
         }
-
+        /// <summary>
+        /// Annulation d'une nouvelles saisie d'abonnement
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAboRevueAnnuler_Click(object sender, EventArgs e)
         {
             if (!(txbAboRevueNumeroDetails.Text == "" && txbAboRevueNumeroMontant.Text == ""))
@@ -2594,6 +2611,33 @@ namespace Mediatek86.vue
             }
         }
 
+        /// <summary>
+        /// Clic sur "supprimer" permet la suppresion d'un abonnement
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAboSupprimer_Click(object sender, EventArgs e)
+        {
+            Abonnement abonnement = (Abonnement)bdgAbonnementRevuesListe.List[bdgAbonnementRevuesListe.Position];
+            if (controle.CheckSupprAbonnement(abonnement))
+            {
+                if (ConfirmationSupprCommande())
+                {
+                    if (controle.SupprAbonnement(abonnement.Id))
+                    {
+                        AfficheAbonnementRevues();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Une erreur s'est produite.", "Erreur");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Impossible de supprimer cet abonnement car il est lié à des exemplaires.", "Information");
+            }
+        }
 
         #endregion
     }

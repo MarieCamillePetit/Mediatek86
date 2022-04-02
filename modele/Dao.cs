@@ -486,5 +486,55 @@ namespace Mediatek86.modele
             }
         }
 
+        /// <summary>
+        /// Suppression d'un abonnement dans la bdd
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>True si la suppression est faites</returns>
+        public static bool SupprAbonnement(string id)
+        {
+            try
+            {
+                List<string> requetes = new List<string>
+                {
+                    "delete from abonnement where id=@id",
+                    "delete from commande where id=@id"
+                };
+                Dictionary<string, object> parameters = new Dictionary<string, object>
+                {
+                    {"@id", id },
+                };
+                BddMySql curs = BddMySql.GetInstance(connectionString);
+                curs.ReqUpdate(requetes, parameters);
+                curs.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static List<FinAbonnement> GetFinAbonnement()
+        {
+            List<FinAbonnement> lesFinAbonnement = new List<FinAbonnement>();
+            string req = "call  abonnementsFin30()";
+
+            BddMySql curs = BddMySql.GetInstance(connectionString);
+            curs.ReqSelect(req, null);
+
+            while (curs.Read())
+            {
+                DateTime dateFinAbonnement = (DateTime)curs.Field("dateFinAbonnement");
+                string idRevue = (string)curs.Field("idRevue");
+                string titreRevue = (string)curs.Field("titre");
+
+                FinAbonnement finAbonnement = new FinAbonnement(dateFinAbonnement, idRevue, titreRevue);
+                lesFinAbonnement.Add(finAbonnement);
+            }
+            curs.Close();
+
+            return lesFinAbonnement;
+        }
     }
 }

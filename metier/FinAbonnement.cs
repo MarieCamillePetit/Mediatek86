@@ -3,10 +3,8 @@
 
 namespace Mediatek86.metier
 {
-
     public class FinAbonnement
     {
-
         private readonly DateTime dateFinAbonnement;
         private readonly string idRevue;
         private readonly string titreRevue;
@@ -19,9 +17,7 @@ namespace Mediatek86.metier
         }
 
         public DateTime DateFinAbonnement => dateFinAbonnement;
-
         public string IdRevue => idRevue;
-
         public string TitreRevue => titreRevue;
     }
 }
