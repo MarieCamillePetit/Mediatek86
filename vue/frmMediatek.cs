@@ -2335,6 +2335,7 @@ namespace Mediatek86.vue
             {
                 pcbAboExemplaireRevueImage.Image = null;
             }
+            AfficheAbonnementRevues();
         }
 
         /// <summary>
@@ -2386,6 +2387,75 @@ namespace Mediatek86.vue
         {
             VideAbonnementRevuesInfos();
         }
+
+
+        /// <summary>
+        /// Récupère, affiche les abonnements d'une revue
+        /// </summary>
+        private void AfficheAbonnementRevues()
+        {
+            string idDocument = txbCommandeRevueNumero.Text.Trim();
+            lesAbonnements = controle.GetAbonnement(idDocument);
+            RemplirAbonnementRevuesListe(lesAbonnements);
+            AfficheAbonnementRevuesDetailSelect();
+        }
+
+        /// <summary>
+        /// Affiche le détail de l'abonnement sélectionné
+        /// </summary>
+        private void AfficheAbonnementRevuesDetailSelect()
+        {
+            if (dgvAboRevuesListe.CurrentCell != null)
+            {
+                Abonnement abonnement = (Abonnement)bdgAbonnementRevuesListe.List[bdgAbonnementRevuesListe.Position];
+                AfficheAbonnementRevuesDetails(abonnement);
+            }
+            else
+            {
+                VideDetailsAbonnementRevues();
+            }
+        }
+
+        /// <summary>
+        /// Affiche les détails d'un abonnement d'une revue
+        /// </summary>
+        /// <param name="abonnement">Abonnement concerné</param>
+        private void AfficheAbonnementRevuesDetails(Abonnement abonnement)
+        {
+            txbAboRevueNumeroDetails.Text = abonnement.Id;
+            dtpAboRevuesDateCommande.Value = abonnement.DateCommande;
+            dtpAboRevuesFinCommande.Value = abonnement.DateFinAbonnement;
+            txbAboRevueNumeroMontant.Text = abonnement.Montant.ToString("C2", CultureInfo.CreateSpecificCulture("fr-FR"));
+        }
+
+        /// <summary>
+        /// Remplit le dategrid avec la collection reçue en paramètre
+        /// </summary>
+        /// <param name="lesAbonnements">Collection de lesAbonnements</param>
+        private void RemplirAbonnementRevuesListe(List<Abonnement> lesAbonnements)
+        {
+            bdgAbonnementRevuesListe.DataSource = lesAbonnements;
+            dgvAboRevuesListe.DataSource = bdgAbonnementRevuesListe;
+            dgvAboRevuesListe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvAboRevuesListe.Columns["id"].Visible = false;
+            dgvAboRevuesListe.Columns["idRevue"].Visible = false;
+            dgvAboRevuesListe.Columns["dateCommande"].DisplayIndex = 0;
+            dgvAboRevuesListe.Columns[3].HeaderCell.Value = "Date commande";
+            dgvAboRevuesListe.Columns["montant"].DisplayIndex = 1;
+            dgvAboRevuesListe.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgvAboRevuesListe.Columns[4].DefaultCellStyle.Format = "c2";
+            dgvAboRevuesListe.Columns[4].DefaultCellStyle.FormatProvider = CultureInfo.GetCultureInfo("fr-FR");
+            dgvAboRevuesListe.Columns[0].HeaderCell.Value = "Date fin abonnement";
+        }
+
+        private void VideDetailsAbonnementRevues()
+        {
+            txbAboRevueNumeroDetails.Text = "";
+            dtpAboRevuesDateCommande.Value = DateTime.Now;
+            dtpAboRevuesFinCommande.Value = DateTime.Now;
+            txbAboRevueNumeroMontant.Text = "";
+        }
+
 
         #endregion
     }

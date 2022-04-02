@@ -287,10 +287,10 @@ namespace Mediatek86.vue
             this.btnDVDASupprimer = new System.Windows.Forms.Button();
             this.btnDVDAjouter = new System.Windows.Forms.Button();
             this.grpNouveauAbo = new System.Windows.Forms.GroupBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dtpAboRevuesDateCommande = new System.Windows.Forms.DateTimePicker();
             this.btnAboRevueAnnuler = new System.Windows.Forms.Button();
             this.txbAboRevueNumeroMontant = new System.Windows.Forms.TextBox();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.dtpAboRevuesFinCommande = new System.Windows.Forms.DateTimePicker();
             this.txbAboRevueNumeroDetails = new System.Windows.Forms.TextBox();
             this.label85 = new System.Windows.Forms.Label();
             this.label86 = new System.Windows.Forms.Label();
@@ -3385,10 +3385,10 @@ namespace Mediatek86.vue
             // 
             // grpNouveauAbo
             // 
-            this.grpNouveauAbo.Controls.Add(this.dateTimePicker1);
+            this.grpNouveauAbo.Controls.Add(this.dtpAboRevuesDateCommande);
             this.grpNouveauAbo.Controls.Add(this.btnAboRevueAnnuler);
             this.grpNouveauAbo.Controls.Add(this.txbAboRevueNumeroMontant);
-            this.grpNouveauAbo.Controls.Add(this.dateTimePicker2);
+            this.grpNouveauAbo.Controls.Add(this.dtpAboRevuesFinCommande);
             this.grpNouveauAbo.Controls.Add(this.txbAboRevueNumeroDetails);
             this.grpNouveauAbo.Controls.Add(this.label85);
             this.grpNouveauAbo.Controls.Add(this.label86);
@@ -3404,14 +3404,14 @@ namespace Mediatek86.vue
             this.grpNouveauAbo.TabStop = false;
             this.grpNouveauAbo.Text = "Détails de l\'abonnement";
             // 
-            // dateTimePicker1
+            // dtpAboRevuesDateCommande
             // 
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(745, 30);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(132, 22);
-            this.dateTimePicker1.TabIndex = 63;
+            this.dtpAboRevuesDateCommande.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpAboRevuesDateCommande.Location = new System.Drawing.Point(745, 30);
+            this.dtpAboRevuesDateCommande.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpAboRevuesDateCommande.Name = "dtpAboRevuesDateCommande";
+            this.dtpAboRevuesDateCommande.Size = new System.Drawing.Size(132, 22);
+            this.dtpAboRevuesDateCommande.TabIndex = 63;
             // 
             // btnAboRevueAnnuler
             // 
@@ -3434,14 +3434,14 @@ namespace Mediatek86.vue
             this.txbAboRevueNumeroMontant.Size = new System.Drawing.Size(132, 22);
             this.txbAboRevueNumeroMontant.TabIndex = 61;
             // 
-            // dateTimePicker2
+            // dtpAboRevuesFinCommande
             // 
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker2.Location = new System.Drawing.Point(745, 71);
-            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(132, 22);
-            this.dateTimePicker2.TabIndex = 59;
+            this.dtpAboRevuesFinCommande.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpAboRevuesFinCommande.Location = new System.Drawing.Point(745, 74);
+            this.dtpAboRevuesFinCommande.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpAboRevuesFinCommande.Name = "dtpAboRevuesFinCommande";
+            this.dtpAboRevuesFinCommande.Size = new System.Drawing.Size(132, 22);
+            this.dtpAboRevuesFinCommande.TabIndex = 59;
             // 
             // txbAboRevueNumeroDetails
             // 
@@ -3466,7 +3466,7 @@ namespace Mediatek86.vue
             // 
             this.label86.AutoSize = true;
             this.label86.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label86.Location = new System.Drawing.Point(613, 39);
+            this.label86.Location = new System.Drawing.Point(581, 35);
             this.label86.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label86.Name = "label86";
             this.label86.Size = new System.Drawing.Size(155, 17);
@@ -3477,7 +3477,7 @@ namespace Mediatek86.vue
             // 
             this.label87.AutoSize = true;
             this.label87.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label87.Location = new System.Drawing.Point(613, 80);
+            this.label87.Location = new System.Drawing.Point(581, 78);
             this.label87.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label87.Name = "label87";
             this.label87.Size = new System.Drawing.Size(134, 17);
@@ -3797,7 +3797,7 @@ namespace Mediatek86.vue
         private System.Windows.Forms.GroupBox grpNouveauAbo;
         private System.Windows.Forms.Button btnAboRevueAnnuler;
         private System.Windows.Forms.TextBox txbAboRevueNumeroMontant;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DateTimePicker dtpAboRevuesFinCommande;
         private System.Windows.Forms.TextBox txbAboRevueNumeroDetails;
         private System.Windows.Forms.Label label85;
         private System.Windows.Forms.Label label86;
@@ -3850,7 +3850,7 @@ namespace Mediatek86.vue
         private System.Windows.Forms.Label label98;
         private System.Windows.Forms.Label label99;
         private System.Windows.Forms.Button btnCommandeRevueRechercher;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpAboRevuesDateCommande;
     }
 }
 
