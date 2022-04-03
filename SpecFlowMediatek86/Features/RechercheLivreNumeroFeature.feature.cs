@@ -19,7 +19,7 @@ namespace SpecFlowMediatek86.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [TechTalk.SpecRun.FeatureAttribute("RechercheLivreNumero", Description="\tTest sur la recherche d\'un document par son numéro", SourceFile="Features\\RechercheLivreNumero.feature", SourceLine=0)]
+    [TechTalk.SpecRun.FeatureAttribute("RechercheLivreNumero", Description="\tTest sur la recherche d\'un document par son numéro", SourceFile="Features\\RechercheLivreNumeroFeature.feature", SourceLine=0)]
     public partial class RechercheLivreNumeroFeature
     {
         
@@ -27,7 +27,7 @@ namespace SpecFlowMediatek86.Features
         
         private string[] _featureTags = ((string[])(null));
         
-#line 1 "RechercheLivreNumero.feature"
+#line 1 "RechercheLivreNumeroFeature.feature"
 #line hidden
         
         [TechTalk.SpecRun.FeatureInitialize()]

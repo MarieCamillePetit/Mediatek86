@@ -9,6 +9,9 @@ using System.Globalization;
 
 namespace Mediatek86.vue
 {
+    /// <summary>
+    /// Vue principale
+    /// </summary>
     public partial class FrmMediatek : Form
     {
 
@@ -38,7 +41,10 @@ namespace Mediatek86.vue
 
         #endregion
 
-
+        /// <summary>
+        /// Permet de rendre invisible des parties de l'application en fonction du service
+        /// </summary>
+        /// <param name="controle"></param>
         public FrmMediatek(Controle controle)
         {
             InitializeComponent();

@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using Serilog;
+using Serilog.Formatting.Json;
 
 namespace Mediatek86.bdd
 {
+    /// <summary>
+    /// Class BddMySql
+    /// </summary>
     public class BddMySql
     {
         /// <summary>
@@ -35,6 +40,7 @@ namespace Mediatek86.bdd
             }
             catch (MySqlException e)
             {
+                Log.Error("BddMySql.BddMySql catch **** stringConnect = " + stringConnect + " **** MySqlException = " + e.Message);
                 ErreurGraveBddNonAccessible(e);
             }
         }
@@ -76,10 +82,11 @@ namespace Mediatek86.bdd
             }
             catch (MySqlException e)
             {
-                Console.WriteLine(e.Message);
+                Log.Error("BddMySql.ReqSelect catch **** stringQuery = " + stringQuery + " **** MySqlException = " + e.Message);
             }
             catch (InvalidOperationException e)
             {
+                Log.Error("BddMySql.ReqSelect catch **** stringQuery = " + stringQuery + " **** InvaldOperationException = " + e.Message);
                 ErreurGraveBddNonAccessible(e);
             }
         }
@@ -119,8 +126,9 @@ namespace Mediatek86.bdd
             {
                 return reader[nameField];
             }
-            catch
+            catch (Exception e)
             {
+                Log.Error("BddMySql.Read catch **** Exception = " + e.Message);
                 return null;
             }
         }
@@ -152,13 +160,15 @@ namespace Mediatek86.bdd
 
                 transaction.Commit();
             }
-            catch (MySqlException)
+            catch (MySqlException e)
             {
                 transaction.Rollback();
+                Log.Error("BddMySql.ReqUpdate catch **** queries = " + string.Join(" --- ", queries) + " **** MySqlException = " + e.Message);
                 throw;
             }
             catch (InvalidOperationException e)
             {
+                Log.Error("BddMySql.ReqUpdate catch **** queries = " + string.Join(" --- ", queries) + " **** InvalidOperationException = " + e.Message);
                 ErreurGraveBddNonAccessible(e);
             }
         }

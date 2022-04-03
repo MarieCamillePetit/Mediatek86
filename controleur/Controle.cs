@@ -10,6 +10,9 @@ using System.Text;
 
 namespace Mediatek86.controleur
 {
+    /// <summary>
+    /// Class Controle
+    /// </summary>
     public class Controle
     {
         private readonly List<Livre> lesLivres;
@@ -19,6 +22,9 @@ namespace Mediatek86.controleur
         private readonly List<Categorie> lesPublics;
         private readonly List<Categorie> lesGenres;
         private readonly List<Suivi> lesSuivis;
+        /// <summary>
+        /// Ré^cupère les services
+        /// </summary>
         public Service userService { get; private set; }
 
         /// <summary>

@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# Serilog004: Constant MessageTemplate verifier
+dotnet_diagnostic.Serilog004.severity = warning
