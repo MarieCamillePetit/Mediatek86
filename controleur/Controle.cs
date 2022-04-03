@@ -23,7 +23,7 @@ namespace Mediatek86.controleur
         private readonly List<Categorie> lesGenres;
         private readonly List<Suivi> lesSuivis;
         /// <summary>
-        /// Ré^cupère les services
+        /// Récupère les services
         /// </summary>
         public Service userService { get; private set; }
 
