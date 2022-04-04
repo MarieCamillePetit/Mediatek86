@@ -1,11 +1,13 @@
 ﻿using System;
-
 using System.Windows.Forms;
 using Mediatek86.controleur;
 using Mediatek86.metier;
 
 namespace Mediatek86.vue
 {
+    /// <summary>
+    /// Class pour la connexion
+    /// </summary>
     public partial class FrmAuthentification : Form
     {
         private readonly Controle controle;
@@ -15,7 +17,10 @@ namespace Mediatek86.vue
         /// </summary>
         public bool onSuccessAuth { get; private set; }
 
-
+        /// <summary>
+        /// Frm Authentification
+        /// </summary>
+        /// <param name="controle"></param>
         public FrmAuthentification(Controle controle)
         {
             InitializeComponent();

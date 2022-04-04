@@ -6,7 +6,9 @@ using System.Windows.Forms;
 
 namespace Mediatek86.vue
 {
-
+    /// <summary>
+    /// Class pour l'alerte
+    /// </summary>
     public partial class FrmAlerteFinAbonnements : Form
     {
 
@@ -14,6 +16,10 @@ namespace Mediatek86.vue
 
         private readonly List<FinAbonnement> lesFinAbonnement;
 
+        /// <summary>
+        /// Affichage des abonnements dans la fenêtre d'alerte
+        /// </summary>
+        /// <param name="controle"></param>
         internal FrmAlerteFinAbonnements(Controle controle)
         {
             InitializeComponent();
@@ -28,12 +34,20 @@ namespace Mediatek86.vue
             btnAlerteFinAbonnements.Focus();
         }
 
-
+        /// <summary>
+        /// Selection d'un abonnement
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvAlerteFinAbonnements_SelectionChanged(object sender, EventArgs e)
         {
             dgvAlerteFinAbonnements.ClearSelection();
         }
-
+        /// <summary>
+        /// Bouton pour quitter la fenêtre d'alerte
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAlerteFinAbonnements_Click(object sender, EventArgs e)
         {
             this.Close();

@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Mediatek86.controleur;
-
+using Serilog;
+using Serilog.Formatting.Json;
 
 namespace Mediatek86
 {
+    /// <summary>
+    /// Class program 
+    /// </summary>
     static class Program
     {
         /// <summary>
@@ -18,7 +19,13 @@ namespace Mediatek86
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FrmMediatek());
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.File(new JsonFormatter(), "logs/log.txt",
+                rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
             new Controle();
         }
     }
